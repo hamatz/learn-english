@@ -9,7 +9,6 @@
       --primary: #4f46e5;
       --primary-hover: #4338ca;
       --primary-light: #e0e7ff;
-      /* 和紙風のやわらかいクリーム背景と質感 */
       --bg-color: #f7f5f0;
       --card-bg: #ffffff;
       --text-main: #2d3748;
@@ -17,13 +16,11 @@
       --border-color: #e2e8f0;
       --success-color: #10b981;
       --success-bg: #f0fdf4;
-      --accent-yellow: #fef3c7;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg-color);
-      /* SVGノイズによる和紙・質感（テクスチャ）表現 */
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
       color: var(--text-main);
       line-height: 1.6;
@@ -42,7 +39,7 @@
       padding: 28px 20px;
       text-align: center;
       margin-bottom: 24px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
       border: 1px solid rgba(226, 232, 240, 0.8);
     }
 
@@ -50,7 +47,6 @@
       margin: 0 0 8px 0;
       font-size: 1.5rem;
       color: var(--primary);
-      letter-spacing: -0.02em;
     }
 
     header p {
@@ -87,7 +83,6 @@
       padding: 16px;
       margin-bottom: 20px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
     .selector-title {
@@ -113,18 +108,12 @@
       cursor: pointer;
       font-weight: 600;
       font-size: 0.88rem;
-      transition: all 0.2s ease;
-    }
-
-    .video-selector button:hover {
-      background: #edf2f7;
     }
 
     .video-selector button.active {
       background: var(--primary);
       color: white;
       border-color: var(--primary);
-      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25);
     }
 
     .player-container {
@@ -133,7 +122,6 @@
       height: 0;
       overflow: hidden;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       margin-bottom: 24px;
       background: #1a202c;
     }
@@ -151,7 +139,6 @@
       padding: 20px;
       margin-bottom: 28px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
     .vocab-title {
@@ -159,9 +146,6 @@
       font-weight: bold;
       color: var(--primary);
       margin: 0 0 12px 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .vocab-grid {
@@ -207,9 +191,7 @@
       background: var(--card-bg);
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
       border: 1px solid var(--border-color);
-      transition: all 0.2s ease;
     }
 
     .card.completed {
@@ -259,24 +241,15 @@
       flex-wrap: wrap;
     }
 
-    a.btn-link, button.btn-primary {
+    button.btn-primary {
       background: var(--primary);
       color: white;
-      text-decoration: none;
       border: none;
       padding: 8px 16px;
       border-radius: 6px;
       font-weight: bold;
       font-size: 0.88rem;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background-color 0.2s;
-    }
-
-    a.btn-link:hover, button.btn-primary:hover {
-      background: var(--primary-hover);
     }
 
     button.btn-secondary {
@@ -288,10 +261,7 @@
       font-weight: bold;
       font-size: 0.88rem;
       cursor: pointer;
-      transition: opacity 0.2s;
     }
-
-    button.btn-secondary:hover { opacity: 0.9; }
 
     .quiz-box {
       margin-top: 14px;
@@ -322,10 +292,6 @@
       outline: none;
       width: 150px;
     }
-
-    input[type="text"]:focus {
-      border-color: var(--primary);
-    }
   </style>
 </head>
 <body>
@@ -341,16 +307,14 @@
   </header>
 
   <div class="selector-card">
-    <div class="selector-title">動画テーマを選択</div>
+    <div class="selector-title">学習テーマを選択</div>
     <div class="video-selector" id="video-selector"></div>
   </div>
 
-  <div class="player-container" id="player-frame">
-    <!-- iframeはJSで動的生成 -->
-  </div>
+  <div class="player-container" id="player-frame"></div>
 
   <div class="vocab-section">
-    <div class="vocab-title">📚 この動画の重要単語・英検必須フレーズ (10語)</div>
+    <div class="vocab-title">📚 このテーマの重要単語・英検必須フレーズ (10語)</div>
     <div class="vocab-grid" id="vocab-grid"></div>
   </div>
 
@@ -359,62 +323,12 @@
 </div>
 
 <script>
-// --- 教材データセット ---
+// --- TED-Ed 公式の永続動画リスト＆学習データ ---
 const tedData = [
-  {
-    id: "v_kpop",
-    category: "K-POP",
-    title: "K-POPスターのトレーニングと文化",
-    youtubeId: "vB8U4Nn1_vI",
-    vocabulary: [
-      { word: "global (形)", meaning: "世界的な、地球規模の" },
-      { word: "phenomenon (名)", meaning: "現象、ブーム" },
-      { word: "undergo (動)", meaning: "（訓練・経験を）受ける" },
-      { word: "intense (形)", meaning: "激しい、厳しい" },
-      { word: "perfect (動)", meaning: "〜を完璧に仕上げる" },
-      { word: "combine (動)", meaning: "〜を組み合わせる" },
-      { word: "element (名)", meaning: "要素、部分" },
-      { word: "attract (動)", meaning: "〜を引きつける、魅了する" },
-      { word: "audience (名)", meaning: "観客、聴衆" },
-      { word: "industry (名)", meaning: "産業、業界" }
-    ],
-    scripts: [
-      {
-        id: "vk_1", start: 10,
-        en: "K-pop has become a global phenomenon with millions of fans.",
-        jp: "K-POPは数百万人のファンを持つ世界的な現象（ブーム）になりました。",
-        blankWord: "global", hint: "「世界的な」という意味の形容詞"
-      },
-      {
-        id: "vk_2", start: 25,
-        en: "It combines various musical elements from around the world.",
-        jp: "それは世界中のさまざまな音楽的要素を組み合わせています。",
-        blankWord: "combines", hint: "「〜を組み合わせる」という意味の動詞"
-      },
-      {
-        id: "vk_3", start: 40,
-        en: "Idols undergo intense training to perfect their performance.",
-        jp: "アイドルたちはパフォーマンスを完璧にするために激しいトレーニングを受けます。",
-        blankWord: "perfect", hint: "「〜を完璧にする」という意味の動詞"
-      },
-      {
-        id: "vk_4", start: 60,
-        en: "Their unique visuals and dance moves attract a global audience.",
-        jp: "彼らのユニークなビジュアルとダンスが世界中の観客を引きつけます。",
-        blankWord: "attract", hint: "「〜を引きつける」という意味の動詞"
-      },
-      {
-        id: "vk_5", start: 85,
-        en: "Social media played an important role in growing the industry.",
-        jp: "SNSは業界を成長させる上で重要な役割を果たしました。",
-        blankWord: "role", hint: "「役割（play a role in）」という意味の名詞"
-      }
-    ]
-  },
   {
     id: "v_beauty",
     category: "美容・科学",
-    title: "日焼け止めと肌の保護 (How sunscreen protects skin)",
+    title: "日焼け止めと肌の保護 (Sunscreen Protection)",
     youtubeId: "ZSJITdsTze0",
     vocabulary: [
       { word: "ultraviolet (形)", meaning: "紫外線の (UV)" },
@@ -430,31 +344,31 @@ const tedData = [
     ],
     scripts: [
       {
-        id: "vb_1", start: 10,
+        id: "vb_1",
         en: "Ultraviolet rays from the sun can damage your skin cells.",
         jp: "太陽からの紫外線は、肌の細胞にダメージを与える可能性があります。",
         blankWord: "damage", hint: "「〜に損害を与える」という意味の動詞"
       },
       {
-        id: "vb_2", start: 35,
+        id: "vb_2",
         en: "Sunscreen creates a barrier that absorbs or reflects UV radiation.",
         jp: "日焼け止めは、紫外線を吸収または反射するバリア（障壁）を作ります。",
         blankWord: "creates", hint: "「〜を作り出す」という意味の動詞"
       },
       {
-        id: "vb_3", start: 50,
+        id: "vb_3",
         en: "By applying sunscreen, you can prevent premature skin aging.",
         jp: "日焼け止めを塗ることで、肌の早期の老化を防ぐことができます。",
         blankWord: "prevent", hint: "「〜を防ぐ」という意味の動詞"
       },
       {
-        id: "vb_4", start: 75,
+        id: "vb_4",
         en: "It is essential to apply it regularly throughout the day.",
         jp: "一日を通して定期的に塗り直すことが不可欠です。",
         blankWord: "regularly", hint: "「定期的に」という意味の副詞"
       },
       {
-        id: "vb_5", start: 95,
+        id: "vb_5",
         en: "Protecting your skin today helps keep it healthy in the future.",
         jp: "今日肌を守ることは、将来健康な状態を保つことに役立ちます。",
         blankWord: "healthy", hint: "「健康な」という意味の形容詞"
@@ -462,102 +376,90 @@ const tedData = [
     ]
   },
   {
-    id: "v_ww1",
-    category: "近代史",
-    title: "第一次世界大戦の始まり (How WWI Started)",
-    youtubeId: "dYro99wZ844",
+    id: "v_practice",
+    category: "成長・科学",
+    title: "効果的に練習する方法 (How to Practice Effectively)",
+    youtubeId: "f2O6mQkFiiw",
     vocabulary: [
-      { word: "trigger (動)", meaning: "〜を引き起こす、引き金となる" },
-      { word: "conflict (名)", meaning: "紛争、争い" },
-      { word: "complex (形)", meaning: "複雑な" },
-      { word: "alliance (名)", meaning: "同盟、協定" },
-      { word: "multiple (形)", meaning: "多数の、様々な" },
-      { word: "tension (名)", meaning: "緊張、緊迫" },
-      { word: "increase (動)", meaning: "増加する、高まる" },
-      { word: "declare (動)", meaning: "〜を宣言する、布告する" },
-      { word: "spread (動)", meaning: "広がる、拡大する" },
-      { word: "consequence (名)", meaning: "結果、影響" }
+      { word: "master (動)", meaning: "〜を習得する、極める" },
+      { word: "effective (形)", meaning: "効果的な" },
+      { word: "consistent (形)", meaning: "一貫した、継続的な" },
+      { word: "focus (動)", meaning: "集中する" },
+      { word: "target (動)", meaning: "〜を標的・対象にする" },
+      { word: "repetition (名)", meaning: "反復、繰り返し" },
+      { word: "pathway (名)", meaning: "経路、回路" },
+      { word: "brain (名)", meaning: "脳" },
+      { word: "improve (動)", meaning: "〜を上達させる、改善する" },
+      { word: "habit (名)", meaning: "習慣" }
     ],
     scripts: [
       {
-        id: "vw1_1", start: 15,
+        id: "vp_1",
+        en: "Mastering any new skill takes time and effective practice.",
+        jp: "新しいスキルをマスターするには、時間と効果的な練習が必要です。",
+        blankWord: "effective", hint: "「効果的な」という意味の形容詞"
+      },
+      {
+        id: "vp_2",
+        en: "Effective practice should be consistent and intensely focused.",
+        jp: "効果的な練習は、一貫性があり、非常に集中したものであるべきです。",
+        blankWord: "consistent", hint: "「一貫した」という意味の形容詞"
+      },
+      {
+        id: "vp_3",
+        en: "Repetition is the key to building strong neural pathways in the brain.",
+        jp: "反復こそが、脳内に強い神経回路を築く鍵となります。",
+        blankWord: "Repetition", hint: "「反復」という意味の名詞"
+      },
+      {
+        id: "vp_4",
+        en: "Focusing on difficult parts helps you improve much faster.",
+        jp: "難しい部分に集中することで、ずっと早く上達することができます。",
+        blankWord: "improve", hint: "「上達する」という意味の動詞"
+      }
+    ]
+  },
+  {
+    id: "v_ww1",
+    category: "近代史",
+    title: "第一次世界大戦の歴史 (World War I History)",
+    youtubeId: "Cd2ch5ohh84",
+    vocabulary: [
+      { word: "trigger (動)", meaning: "〜を引き起こす" },
+      { word: "conflict (名)", meaning: "紛争、争い" },
+      { word: "complex (形)", meaning: "複雑な" },
+      { word: "alliance (名)", meaning: "同盟" },
+      { word: "tension (名)", meaning: "緊張" },
+      { word: "increase (動)", meaning: "高まる、増加する" },
+      { word: "declare (動)", meaning: "〜を宣言する" },
+      { word: "spread (動)", meaning: "広がる" },
+      { word: "impact (名)", meaning: "影響、衝撃" },
+      { word: "nation (名)", meaning: "国家、国" }
+    ],
+    scripts: [
+      {
+        id: "vw1_1",
         en: "A single event in 1914 triggered a global conflict.",
         jp: "1914年のたった一つの出来事が、世界的な紛争を引き起こしました。",
-        blankWord: "conflict", hint: "「紛争、争い」という意味の重要名詞"
+        blankWord: "conflict", hint: "「紛争、争い」という意味の名詞"
       },
       {
-        id: "vw1_2", start: 35,
+        id: "vw1_2",
         en: "Political tensions had been increasing across Europe for years.",
         jp: "ヨーロッパ全土で政治的緊張が何年も高まっていました。",
-        blankWord: "increasing", hint: "「高まる、増加する（increaseの進行形）」"
+        blankWord: "increasing", hint: "「高まる」という意味の動詞（進行形）"
       },
       {
-        id: "vw1_3", start: 55,
+        id: "vw1_3",
         en: "Complex alliances led multiple countries into the war.",
         jp: "複雑な同盟関係が、多くの国々を戦争へと引き込みました。",
         blankWord: "countries", hint: "「国々（countryの複数形）」"
       },
       {
-        id: "vw1_4", start: 80,
-        en: "One nation declared war, causing others to join immediately.",
-        jp: "ある国が宣戦布告したことで、他の国々もただちに参戦することになりました。",
-        blankWord: "declared", hint: "「〜を宣言した（declareの過去形）」"
-      },
-      {
-        id: "vw1_5", start: 105,
-        en: "The war spread rapidly, changing the map of Europe forever.",
-        jp: "戦争は急速に広がり、ヨーロッパの地図を永久に変えてしまいました。",
-        blankWord: "spread", hint: "「広がる、拡大する」という意味の動詞"
-      }
-    ]
-  },
-  {
-    id: "v_code",
-    category: "近代史",
-    title: "WWII 暗号解読の秘密 (WWII Codebreakers)",
-    youtubeId: "Y87xJ4sH_Cg",
-    vocabulary: [
-      { word: "secret (形)", meaning: "秘密の" },
-      { word: "crucial (形)", meaning: "極めて重要な、決定的な" },
-      { word: "role (名)", meaning: "役割（play a role in）" },
-      { word: "operation (名)", meaning: "作戦、行動" },
-      { word: "shorten (動)", meaning: "〜を短縮する" },
-      { word: "intercept (動)", meaning: "〜を傍受する、途中で奪う" },
-      { word: "predict (動)", meaning: "〜を予測する" },
-      { word: "accurate (形)", meaning: "正確な" },
-      { word: "contribute to (動)", meaning: "〜に貢献する" },
-      { word: "foundation (名)", meaning: "基礎、土台" }
-    ],
-    scripts: [
-      {
-        id: "vw2_1", start: 15,
-        en: "Secret codes played a crucial role in military operations.",
-        jp: "秘密の暗号は、軍事作戦において極めて重要な役割を果たしました。",
-        blankWord: "secret", hint: "「秘密の」という意味の形容詞"
-      },
-      {
-        id: "vw2_2", start: 35,
-        en: "By intercepting messages, they were able to predict enemy movements.",
-        jp: "メッセージを傍受することで、彼らは敵の動きを予測することができました。",
-        blankWord: "predict", hint: "「〜を予測する」という意味の動詞"
-      },
-      {
-        id: "vw2_3", start: 55,
-        en: "Accurate intelligence contributed directly to the Allied victory.",
-        jp: "正確な情報（諜報）が、連合国の勝利に直接貢献しました。",
-        blankWord: "contributed", hint: "「〜に貢献した（contributeの過去形）」"
-      },
-      {
-        id: "vw2_4", start: 70,
-        en: "Breaking the code saved thousands of lives and shortened the war.",
-        jp: "暗号を解読したことで何千もの命が救われ、戦争が短縮されました。",
-        blankWord: "saved", hint: "「〜を救った（saveの過去形）」"
-      },
-      {
-        id: "vw2_5", start: 90,
-        en: "This breakthrough laid the foundation for modern electronic computers.",
-        jp: "この重大な発見（突破口）が、現代の電子コンピュータの基礎を築いたのです。",
-        blankWord: "foundation", hint: "「基礎、土台」という意味の名詞"
+        id: "vw1_4",
+        en: "The war spread rapidly, changing global history forever.",
+        jp: "戦争は急速に広がり、世界の歴史を永久に変えてしまいました。",
+        blankWord: "spread", hint: "「広がる」という意味の動詞"
       }
     ]
   }
@@ -587,10 +489,9 @@ function loadVideo(index) {
   currentVideoIndex = index;
   const data = tedData[index];
   
-  // iframeプレイヤーを直接HTML生成して置き換え
   const frameContainer = document.getElementById('player-frame');
   frameContainer.innerHTML = `
-    <iframe id="yt-iframe" src="https://www.youtube.com/embed/${data.youtubeId}?enablejsapi=1&rel=0" allowfullscreen allow="autoplay"></iframe>
+    <iframe id="yt-iframe" src="https://www.youtube.com/embed/${data.youtubeId}?rel=0" allowfullscreen></iframe>
   `;
 
   document.getElementById('current-video-title').innerText = `${data.title} - フレーズ学習`;
@@ -627,9 +528,6 @@ function renderScripts() {
     card.className = `card ${isDone ? 'completed' : ''}`;
     
     const maskedEn = s.en.replace(new RegExp(`\\b${s.blankWord}\\b`, 'gi'), '_____');
-    
-    // 直リンクURL作成（YouTubeアプリまたはWebで直接該当秒数から再生される）
-    const ytDirectUrl = `https://www.youtube.com/watch?v=${currentData.youtubeId}&t=${s.start}s`;
 
     card.innerHTML = `
       <div class="card-header">
@@ -639,7 +537,8 @@ function renderScripts() {
       <div class="en-text">${s.en}</div>
       <div class="jp-text">${s.jp}</div>
       <div class="actions">
-        <a href="${ytDirectUrl}" target="_blank" class="btn-link">▶ このシーンをYouTubeで再生 (${s.start}秒〜)</a>
+        <button class="btn-primary" onclick="speakText('${s.en.replace(/'/g, "\\'")}', 1.0)">🔊 英語音声を聴く</button>
+        <button class="btn-primary" style="background:#64748b;" onclick="speakText('${s.en.replace(/'/g, "\\'")}', 0.8)">ゆっくり聴く (0.8x)</button>
         <button class="btn-secondary" onclick="toggleQuiz('${s.id}')">✍️ 穴埋めチェック</button>
       </div>
       <div class="quiz-box" id="quiz-${s.id}">
@@ -656,6 +555,19 @@ function renderScripts() {
     `;
     container.appendChild(card);
   });
+}
+
+// ブラウザ標準のクリアな英文音声読み上げ（Web Speech API）
+function speakText(text, rate) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel(); // 前の音声をクリア
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = 'en-US';
+    uttr.rate = rate || 1.0;
+    window.speechSynthesis.speak(uttr);
+  } else {
+    alert("お使いのブラウザは音声読み上げ機能に対応していません。");
+  }
 }
 
 function toggleQuiz(id) {
