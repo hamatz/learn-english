@@ -323,12 +323,12 @@
 </div>
 
 <script>
-// --- TED-Ed 公式の永続動画リスト＆学習データ ---
+// --- TED-Ed 公式動作確認済み動画リスト ---
 const tedData = [
   {
     id: "v_beauty",
     category: "美容・科学",
-    title: "日焼け止めと肌の保護 (Sunscreen Protection)",
+    title: "日焼け止めと肌の保護 (How sunscreen protects skin)",
     youtubeId: "ZSJITdsTze0",
     vocabulary: [
       { word: "ultraviolet (形)", meaning: "紫外線の (UV)" },
@@ -420,46 +420,90 @@ const tedData = [
     ]
   },
   {
-    id: "v_ww1",
-    category: "近代史",
-    title: "第一次世界大戦の歴史 (World War I History)",
-    youtubeId: "Cd2ch5ohh84",
+    id: "v_history_tech",
+    category: "近代史・技術",
+    title: "エジソンvsテスラ：電流戦争の歴史 (Edison vs. Tesla)",
+    youtubeId: "gJ1Mz7kGVf0",
     vocabulary: [
-      { word: "trigger (動)", meaning: "〜を引き起こす" },
-      { word: "conflict (名)", meaning: "紛争、争い" },
-      { word: "complex (形)", meaning: "複雑な" },
-      { word: "alliance (名)", meaning: "同盟" },
-      { word: "tension (名)", meaning: "緊張" },
-      { word: "increase (動)", meaning: "高まる、増加する" },
-      { word: "declare (動)", meaning: "〜を宣言する" },
-      { word: "spread (動)", meaning: "広がる" },
-      { word: "impact (名)", meaning: "影響、衝撃" },
-      { word: "nation (名)", meaning: "国家、国" }
+      { word: "electricity (名)", meaning: "電気" },
+      { word: "competition (名)", meaning: "競争、争い" },
+      { word: "inventor (名)", meaning: "発明家" },
+      { word: "system (名)", meaning: "システム、仕組み" },
+      { word: "efficient (形)", meaning: "効率的な" },
+      { word: "power (名)", meaning: "電力、力" },
+      { word: "spread (動)", meaning: "広がる、普及する" },
+      { word: "modern (形)", meaning: "現代の、近代の" },
+      { word: "standard (名)", meaning: "標準、規格" },
+      { word: "victory (名)", meaning: "勝利" }
     ],
     scripts: [
       {
-        id: "vw1_1",
-        en: "A single event in 1914 triggered a global conflict.",
-        jp: "1914年のたった一つの出来事が、世界的な紛争を引き起こしました。",
-        blankWord: "conflict", hint: "「紛争、争い」という意味の名詞"
+        id: "vh_1",
+        en: "In the late 19th century, a fierce competition transformed modern power.",
+        jp: "19世紀後半、激しい競争が現代の電気（電力）を一変させました。",
+        blankWord: "competition", hint: "「競争」という意味の名詞"
       },
       {
-        id: "vw1_2",
-        en: "Political tensions had been increasing across Europe for years.",
-        jp: "ヨーロッパ全土で政治的緊張が何年も高まっていました。",
-        blankWord: "increasing", hint: "「高まる」という意味の動詞（進行形）"
+        id: "vh_2",
+        en: "Edison and Tesla fought over the best system to power the world.",
+        jp: "エジソンとテスラは、世界に電力を供給する最適なシステムを巡って争いました。",
+        blankWord: "fought", hint: "「争った（fightの過去形）」"
       },
       {
-        id: "vw1_3",
-        en: "Complex alliances led multiple countries into the war.",
-        jp: "複雑な同盟関係が、多くの国々を戦争へと引き込みました。",
-        blankWord: "countries", hint: "「国々（countryの複数形）」"
+        id: "vh_3",
+        en: "Tesla's alternating current proved to be more efficient for long distances.",
+        jp: "テスラの交流電流は、長距離の送電においてより効率的であることが証明されました。",
+        blankWord: "efficient", hint: "「効率的な」という意味の形容詞"
       },
       {
-        id: "vw1_4",
-        en: "The war spread rapidly, changing global history forever.",
-        jp: "戦争は急速に広がり、世界の歴史を永久に変えてしまいました。",
-        blankWord: "spread", hint: "「広がる」という意味の動詞"
+        id: "vh_4",
+        en: "This historical battle established the foundation of our modern electric grid.",
+        jp: "この歴史的な戦いが、現代の送電網の基礎を確立したのです。",
+        blankWord: "modern", hint: "「現代の、近代の」という意味の形容詞"
+      }
+    ]
+  },
+  {
+    id: "v_apollo",
+    category: "近代史・宇宙",
+    title: "アポロ11号と月面着陸の歴史 (How Moon Landing Worked)",
+    youtubeId: "33AogCg02-I",
+    vocabulary: [
+      { word: "achieve (動)", meaning: "〜を達成する、成し遂げる" },
+      { word: "mission (名)", meaning: "任務、ミッション" },
+      { word: "technology (名)", meaning: "技術、テクノロジー" },
+      { word: "space (名)", meaning: "宇宙" },
+      { word: "land (動)", meaning: "着陸する" },
+      { word: "historic (形)", meaning: "歴史的な" },
+      { word: "moment (名)", meaning: "瞬間" },
+      { word: "humanity (名)", meaning: "人類" },
+      { word: "challenge (名)", meaning: "挑戦、課題" },
+      { word: "explore (動)", meaning: "〜を探索する、探検する" }
+    ],
+    scripts: [
+      {
+        id: "va_1",
+        en: "In 1969, humanity achieved one of its greatest technological missions.",
+        jp: "1969年、人類は最も偉大な技術的ミッションの一つを達成しました。",
+        blankWord: "achieved", hint: "「〜を達成した（achieveの過去形）」"
+      },
+      {
+        id: "va_2",
+        en: "Apollo 11 successfully landed the first humans on the Moon.",
+        jp: "アポロ11号は、人類を月面に着陸させることに成功しました。",
+        blankWord: "landed", hint: "「着陸させた（landの過去形）」"
+      },
+      {
+        id: "va_3",
+        en: "Engineers overcame countless technical challenges to make it possible.",
+        jp: "エンジニアたちはそれを可能にするため、無数の技術的課題を乗り越えました。",
+        blankWord: "challenges", hint: "「課題、試練（challengeの複数形）」"
+      },
+      {
+        id: "va_4",
+        en: "It was a historic moment that inspired people all over the world.",
+        jp: "それは世界中の人々を奮い立たせた歴史的な瞬間でした。",
+        blankWord: "historic", hint: "「歴史的な」という意味の形容詞"
       }
     ]
   }
@@ -557,10 +601,9 @@ function renderScripts() {
   });
 }
 
-// ブラウザ標準のクリアな英文音声読み上げ（Web Speech API）
 function speakText(text, rate) {
   if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel(); // 前の音声をクリア
+    window.speechSynthesis.cancel();
     const uttr = new SpeechSynthesisUtterance(text);
     uttr.lang = 'en-US';
     uttr.rate = rate || 1.0;
