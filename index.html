@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TED-Ed で英語を学ぶ</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      /* 和紙風のやわらかいクリーム背景と質感 */
+      --bg-color: #f7f5f0;
+      --card-bg: #ffffff;
+      --text-main: #2d3748;
+      --text-sub: #718096;
+      --border-color: #e2e8f0;
+      --success-color: #10b981;
+      --success-bg: #f0fdf4;
+      --accent-yellow: #fef3c7;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      /* SVGノイズによる和紙・質感（テクスチャ）表現 */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+      color: var(--text-main);
+      line-height: 1.6;
+      margin: 0;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 1.5rem;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--text-sub);
+    }
+
+    .progress-status {
+      margin-top: 18px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+
+    .progress-bar-container {
+      background-color: #edf2f7;
+      border-radius: 9999px;
+      height: 10px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background-color: var(--success-color);
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .selector-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .selector-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .video-selector {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .video-selector button {
+      background: #f7fafc;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+    }
+
+    .video-selector button:hover {
+      background: #edf2f7;
+    }
+
+    .video-selector button.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25);
+    }
+
+    .player-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+      background: #1a202c;
+    }
+
+    .player-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    .vocab-section {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .vocab-title {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin: 0 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .vocab-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 10px 14px;
+      border-radius: 8px;
+    }
+
+    .vocab-word {
+      font-weight: bold;
+      color: #1a202c;
+      font-size: 0.95rem;
+    }
+
+    .vocab-meaning {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    .section-heading {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 6px;
+      color: var(--primary);
+      margin-bottom: 16px;
+      font-size: 1.15rem;
+      font-weight: bold;
+    }
+
+    .transcript-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .card.completed {
+      border-left: 5px solid var(--success-color);
+      background-color: var(--success-bg);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.78em;
+      font-weight: bold;
+    }
+
+    .status-badge {
+      color: var(--success-color);
+      font-weight: bold;
+      font-size: 0.88em;
+    }
+
+    .en-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+
+    .jp-text {
+      font-size: 0.92rem;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button.btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button.btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    button.btn-secondary {
+      background: #718096;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button.btn-secondary:hover { opacity: 0.9; }
+
+    .quiz-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #f8fafc;
+      border-radius: 8px;
+      display: none;
+      border: 1px dashed #cbd5e1;
+    }
+
+    .quiz-instruction {
+      margin: 0 0 10px 0;
+      font-size: 0.88rem;
+      color: #4a5568;
+    }
+
+    .quiz-input-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      width: 150px;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>TED-Ed で英語を学ぶ</h1>
+    <p>興味のあるテーマで耳と目を慣らし、必須フレーズを確実に定着させよう</p>
+    <div class="progress-status" id="progress-text">進捗状況: 0 / 0 フレーズ完了 (0%)</div>
+    <div class="progress-bar-container">
+      <div id="progress-bar" class="progress-bar"></div>
+    </div>
+  </header>
+
+  <div class="selector-card">
+    <div class="selector-title">動画テーマを選択</div>
+    <div class="video-selector" id="video-selector"></div>
+  </div>
+
+  <div class="player-container">
+    <div id="player"></div>
+  </div>
+
+  <div class="vocab-section">
+    <div class="vocab-title">📚 この動画の重要単語・英検必須フレーズ (10語)</div>
+    <div class="vocab-grid" id="vocab-grid"></div>
+  </div>
+
+  <div class="section-heading" id="current-video-title">フレーズリスト</div>
+  <div class="transcript-list" id="transcript-list"></div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+// --- 大幅拡充したフルボリューム教材データセット ---
+const tedData = [
+  {
+    id: "v_kpop",
+    category: "K-POP",
+    title: "K-POPの世界的人気 (History of K-Pop)",
+    youtubeId: "S_1C-K0Y-98",
+    vocabulary: [
+      { word: "global (形)", meaning: "世界的な、地球規模の" },
+      { word: "phenomenon (名)", meaning: "現象、ブーム" },
+      { word: "undergo (動)", meaning: "（訓練・経験を）受ける" },
+      { word: "intense (形)", meaning: "激しい、厳しい" },
+      { word: "perfect (動)", meaning: "〜を完璧に仕上げる" },
+      { word: "combine (動)", meaning: "〜を組み合わせる" },
+      { word: "element (名)", meaning: "要素、部分" },
+      { word: "attract (動)", meaning: "〜を引きつける、魅了する" },
+      { word: "audience (名)", meaning: "観客、聴衆" },
+      { word: "industry (名)", meaning: "産業、業界" }
+    ],
+    scripts: [
+      {
+        id: "vk_1", start: 15,
+        en: "K-pop has become a global phenomenon with millions of fans.",
+        jp: "K-POPは数百万人のファンを持つ世界的な現象（ブーム）になりました。",
+        blankWord: "global", hint: "「世界的な」という意味の形容詞"
+      },
+      {
+        id: "vk_2", start: 30,
+        en: "It combines various musical elements from around the world.",
+        jp: "それは世界中のさまざまな音楽的要素を組み合わせています。",
+        blankWord: "combines", hint: "「〜を組み合わせる」という意味の動詞"
+      },
+      {
+        id: "vk_3", start: 42,
+        en: "Idols undergo intense training to perfect their performance.",
+        jp: "アイドルたちはパフォーマンスを完璧にするために激しいトレーニングを受けます。",
+        blankWord: "perfect", hint: "「〜を完璧にする」という意味の動詞"
+      },
+      {
+        id: "vk_4", start: 65,
+        en: "Their unique visuals and dance moves attract a global audience.",
+        jp: "彼らのユニークなビジュアルとダンスが世界中の観客を引きつけます。",
+        blankWord: "attract", hint: "「〜を引きつける」という意味の動詞"
+      },
+      {
+        id: "vk_5", start: 90,
+        en: "Social media played an important role in growing the industry.",
+        jp: "SNSは業界を成長させる上で重要な役割を果たしました。",
+        blankWord: "role", hint: "「役割（play a role in）」という意味の名詞"
+      }
+    ]
+  },
+  {
+    id: "v_beauty",
+    category: "美容・科学",
+    title: "日焼け止めと肌の保護 (How sunscreen protects skin)",
+    youtubeId: "ZSJITdsTze0",
+    vocabulary: [
+      { word: "ultraviolet (形)", meaning: "紫外線の (UV)" },
+      { word: "damage (動)", meaning: "〜にダメージを与える" },
+      { word: "create (動)", meaning: "〜を創り出す、生み出す" },
+      { word: "barrier (名)", meaning: "バリア、障壁" },
+      { word: "absorb (動)", meaning: "〜を吸収する" },
+      { word: "reflect (動)", meaning: "〜を反射する" },
+      { word: "prevent (動)", meaning: "〜を防ぐ、予防する" },
+      { word: "aging (名)", meaning: "老化、加齢" },
+      { word: "apply (動)", meaning: "（薬や塗料を）塗る" },
+      { word: "regularly (副)", meaning: "定期的に、習慣的に" }
+    ],
+    scripts: [
+      {
+        id: "vb_1", start: 10,
+        en: "Ultraviolet rays from the sun can damage your skin cells.",
+        jp: "太陽からの紫外線は、肌の細胞にダメージを与える可能性があります。",
+        blankWord: "damage", hint: "「〜に損害を与える」という意味の動詞"
+      },
+      {
+        id: "vb_2", start: 35,
+        en: "Sunscreen creates a barrier that absorbs or reflects UV radiation.",
+        jp: "日焼け止めは、紫外線を吸収または反射するバリア（障壁）を作ります。",
+        blankWord: "creates", hint: "「〜を作り出す」という意味の動詞"
+      },
+      {
+        id: "vb_3", start: 50,
+        en: "By applying sunscreen, you can prevent premature skin aging.",
+        jp: "日焼け止めを塗ることで、肌の早期の老化を防ぐことができます。",
+        blankWord: "prevent", hint: "「〜を防ぐ」という意味の動詞"
+      },
+      {
+        id: "vb_4", start: 75,
+        en: "It is essential to apply it regularly throughout the day.",
+        jp: "一日を通して定期的に塗り直すことが不可欠です。",
+        blankWord: "regularly", hint: "「定期的に」という意味の副詞"
+      },
+      {
+        id: "vb_5", start: 95,
+        en: "Protecting your skin today helps keep it healthy in the future.",
+        jp: "今日肌を守ることは、将来健康な状態を保つことに役立ちます。",
+        blankWord: "healthy", hint: "「健康な」という意味の形容詞"
+      }
+    ]
+  },
+  {
+    id: "v_ww1",
+    category: "近代史",
+    title: "第一次世界大戦の始まり (How WWI Started)",
+    youtubeId: "Cd2ch5ohh84",
+    vocabulary: [
+      { word: "trigger (動)", meaning: "〜を引き起こす、引き金となる" },
+      { word: "conflict (名)", meaning: "紛争、争い" },
+      { word: "complex (形)", meaning: "複雑な" },
+      { word: "alliance (名)", meaning: "同盟、協定" },
+      { word: "multiple (形)", meaning: "多数の、様々な" },
+      { word: "tension (名)", meaning: "緊張、緊迫" },
+      { word: "increase (動)", meaning: "増加する、高まる" },
+      { word: "declare (動)", meaning: "〜を宣言する、布告する" },
+      { word: "spread (動)", meaning: "広がる、拡大する" },
+      { word: "consequence (名)", meaning: "結果、影響" }
+    ],
+    scripts: [
+      {
+        id: "vw1_1", start: 18,
+        en: "A single event in 1914 triggered a global conflict.",
+        jp: "1914年のたった一つの出来特が、世界的な紛争を引き起こしました。",
+        blankWord: "conflict", hint: "「紛争、争い」という意味の重要名詞"
+      },
+      {
+        id: "vw1_2", start: 35,
+        en: "Political tensions had been increasing across Europe for years.",
+        jp: "ヨーロッパ全土で政治的緊張が何年も高まっていました。",
+        blankWord: "increasing", hint: "「高まる、増加する（increaseの進行形）」"
+      },
+      {
+        id: "vw1_3", start: 55,
+        en: "Complex alliances led multiple countries into the war.",
+        jp: "複雑な同盟関係が、多くの国々を戦争へと引き込みました。",
+        blankWord: "countries", hint: "「国々（countryの複数形）」"
+      },
+      {
+        id: "vw1_4", start: 80,
+        en: "One nation declared war, causing others to join immediately.",
+        jp: "ある国が宣戦布告したことで、他の国々もただちに参戦することになりました。",
+        blankWord: "declared", hint: "「〜を宣言した（declareの過去形）」"
+      },
+      {
+        id: "vw1_5", start: 105,
+        en: "The war spread rapidly, changing the map of Europe forever.",
+        jp: "戦争は急速に広がり、ヨーロッパの地図を永久に変えてしまいました。",
+        blankWord: "spread", hint: "「広がる、拡大する」という意味の動詞"
+      }
+    ]
+  },
+  {
+    id: "v_code",
+    category: "近代史",
+    title: "WWII 暗号解読の秘密 (WWII Codebreakers)",
+    youtubeId: "g2tMcUf9L7M",
+    vocabulary: [
+      { word: "secret (形)", meaning: "秘密の" },
+      { word: "crucial (形)", meaning: "極めて重要な、決定的な" },
+      { word: "role (名)", meaning: "役割（play a role in）" },
+      { word: "operation (名)", meaning: "作戦、行動" },
+      { word: "shorten (動)", meaning: "〜を短縮する" },
+      { word: "intercept (動)", meaning: "〜を傍受する、途中で奪う" },
+      { word: "predict (動)", meaning: "〜を予測する" },
+      { word: "accurate (形)", meaning: "正確な" },
+      { word: "contribute to (動)", meaning: "〜に貢献する" },
+      { word: "foundation (名)", meaning: "基礎、土台" }
+    ],
+    scripts: [
+      {
+        id: "vw2_1", start: 15,
+        en: "Secret codes played a crucial role in military operations.",
+        jp: "秘密の暗号は、軍事作戦において極めて重要な役割を果たしました。",
+        blankWord: "secret", hint: "「秘密の」という意味の形容詞"
+      },
+      {
+        id: "vw2_2", start: 35,
+        en: "By intercepting messages, they were able to predict enemy movements.",
+        jp: "メッセージを傍受することで、彼らは敵の動きを予測することができました。",
+        blankWord: "predict", hint: "「〜を予測する」という意味の動詞"
+      },
+      {
+        id: "vw2_3", start: 55,
+        en: "Accurate intelligence contributed directly to the Allied victory.",
+        jp: "正確な情報（諜報）が、連合国の勝利に直接貢献しました。",
+        blankWord: "contributed", hint: "「〜に貢献した（contributeの過去形）」"
+      },
+      {
+        id: "vw2_4", start: 70,
+        en: "Breaking the code saved thousands of lives and shortened the war.",
+        jp: "暗号を解読したことで何千もの命が救われ、戦争が短縮されました。",
+        blankWord: "saved", hint: "「〜を救った（saveの過去形）」"
+      },
+      {
+        id: "vw2_5", start: 90,
+        en: "This breakthrough laid the foundation for modern electronic computers.",
+        jp: "この重大な発見（突破口）が、現代の電子コンピュータの基礎を築いたのです。",
+        blankWord: "foundation", hint: "「基礎、土台」という意味の名詞"
+      }
+    ]
+  }
+];
+
+let player;
+let currentVideoIndex = 0;
+let completedList = JSON.parse(localStorage.getItem('english_paper_app_completed') || '[]');
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    videoId: tedData[0].youtubeId,
+    playerVars: { 'playsinline': 1, 'rel': 0 },
+    events: { 'onReady': initApp }
+  });
+}
+
+function initApp() {
+  renderVideoSelector();
+  loadVideo(0);
+}
+
+function renderVideoSelector() {
+  const container = document.getElementById('video-selector');
+  container.innerHTML = '';
+  tedData.forEach((item, index) => {
+    const btn = document.createElement('button');
+    btn.innerText = `[${item.category}] ${item.title}`;
+    btn.className = index === currentVideoIndex ? 'active' : '';
+    btn.onclick = () => loadVideo(index);
+    container.appendChild(btn);
+  });
+}
+
+function loadVideo(index) {
+  currentVideoIndex = index;
+  const data = tedData[index];
+  
+  if (player && player.loadVideoById) {
+    player.loadVideoById(data.youtubeId);
+  }
+
+  document.getElementById('current-video-title').innerText = `${data.title} - フレーズ学習`;
+  renderVideoSelector();
+  renderVocabulary(data.vocabulary);
+  renderScripts();
+  updateProgress();
+}
+
+function renderVocabulary(vocabList) {
+  const container = document.getElementById('vocab-grid');
+  container.innerHTML = '';
+  if (!vocabList) return;
+
+  vocabList.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <div class="vocab-word">${v.word}</div>
+      <div class="vocab-meaning">${v.meaning}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function renderScripts() {
+  const container = document.getElementById('transcript-list');
+  container.innerHTML = '';
+  const currentData = tedData[currentVideoIndex];
+
+  currentData.scripts.forEach((s, i) => {
+    const isDone = completedList.includes(s.id);
+    const card = document.createElement('div');
+    card.className = `card ${isDone ? 'completed' : ''}`;
+    
+    const maskedEn = s.en.replace(new RegExp(`\\b${s.blankWord}\\b`, 'gi'), '_____');
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="badge">Phrase ${i + 1}</span>
+        ${isDone ? '<span class="status-badge">✓ クリア済</span>' : ''}
+      </div>
+      <div class="en-text">${s.en}</div>
+      <div class="jp-text">${s.jp}</div>
+      <div class="actions">
+        <button class="btn-primary" onclick="seekTo(${s.start})">▶ このシーンを再生</button>
+        <button class="btn-secondary" onclick="toggleQuiz('${s.id}')">✍️ 穴埋めチェック</button>
+      </div>
+      <div class="quiz-box" id="quiz-${s.id}">
+        <p class="quiz-instruction">
+          カッコに入る英単語を入力してください。<br>
+          <strong>${maskedEn}</strong><br>
+          <small style="color:var(--text-sub);">ヒント: ${s.hint}</small>
+        </p>
+        <div class="quiz-input-group">
+          <input type="text" id="input-${s.id}" placeholder="英単語を入力">
+          <button class="btn-primary" onclick="checkAnswer('${s.id}', '${s.blankWord}')">判定</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function seekTo(seconds) {
+  if (player) {
+    player.seekTo(seconds, true);
+    player.playVideo();
+  }
+}
+
+function toggleQuiz(id) {
+  const box = document.getElementById(`quiz-${id}`);
+  box.style.display = box.style.display === 'block' ? 'none' : 'block';
+}
+
+function checkAnswer(id, correct) {
+  const inputEl = document.getElementById(`input-${id}`);
+  const inputVal = inputEl.value.trim().toLowerCase();
+  
+  if (inputVal === correct.toLowerCase()) {
+    alert("正解です！クリアに登録しました。");
+    if (!completedList.includes(id)) {
+      completedList.push(id);
+      localStorage.setItem('english_paper_app_completed', JSON.stringify(completedList));
+    }
+    renderScripts();
+    updateProgress();
+  } else {
+    alert("惜しい！もう一度音声を聞いて確かめてみよう。");
+  }
+}
+
+function updateProgress() {
+  let totalPhrases = 0;
+  tedData.forEach(item => {
+    totalPhrases += item.scripts.length;
+  });
+
+  const completedCount = completedList.length;
+  const percent = totalPhrases > 0 ? Math.round((completedCount / totalPhrases) * 100) : 0;
+
+  document.getElementById('progress-text').innerText = `進捗状況: ${completedCount} / ${totalPhrases} フレーズ完了 (${percent}%)`;
+  document.getElementById('progress-bar').style.width = `${percent}%`;
+}
+
+window.onload = () => {};
+</script>
+</body>
+</html>
