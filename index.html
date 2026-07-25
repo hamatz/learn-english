@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TED-Edで英語を学ぶ</title>
+  <title>TED-Ed で英語を学ぶ</title>
   <style>
     :root {
       --primary: #4f46e5;
@@ -116,21 +116,31 @@
       border-color: var(--primary);
     }
 
-    .player-container {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
+    /* プレイヤーカードのデザイン */
+    .audio-player-card {
+      background: #1e293b;
+      color: white;
       border-radius: 12px;
+      padding: 24px;
       margin-bottom: 24px;
-      background: #1a202c;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
-    .player-container iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      border: 0;
+    .audio-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #f8fafc;
+    }
+
+    .audio-sub {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 16px;
     }
 
     .vocab-section {
@@ -298,7 +308,7 @@
 
 <div class="container">
   <header>
-    <h1>TED-Edで英語を学ぶ</h1>
+    <h1>TED-Ed で英語を学ぶ</h1>
     <p>興味のあるテーマで耳と目を慣らし、必須フレーズを確実に定着させよう</p>
     <div class="progress-status" id="progress-text">進捗状況: 0 / 0 フレーズ完了 (0%)</div>
     <div class="progress-bar-container">
@@ -311,7 +321,10 @@
     <div class="video-selector" id="video-selector"></div>
   </div>
 
-  <div class="player-container" id="player-frame"></div>
+  <div class="audio-player-card">
+    <div class="audio-title" id="player-title">テーマ名</div>
+    <div class="audio-sub">※ 各フレーズのボタンからネイティブ音声・ゆっくり音声をいつでも再生できます</div>
+  </div>
 
   <div class="vocab-section">
     <div class="vocab-title">📚 このテーマの重要単語・英検必須フレーズ (10語)</div>
@@ -323,13 +336,12 @@
 </div>
 
 <script>
-// --- TED-Ed 公式動作確認済み動画リスト ---
+// --- 完全自立型 教材データセット ---
 const tedData = [
   {
     id: "v_beauty",
     category: "美容・科学",
-    title: "日焼け止めと肌の保護 (How sunscreen protects skin)",
-    youtubeId: "ZSJITdsTze0",
+    title: "日焼け止めと肌の保護 (Sunscreen Protection)",
     vocabulary: [
       { word: "ultraviolet (形)", meaning: "紫外線の (UV)" },
       { word: "damage (動)", meaning: "〜にダメージを与える" },
@@ -376,10 +388,52 @@ const tedData = [
     ]
   },
   {
+    id: "v_kpop",
+    category: "K-POP",
+    title: "K-POPスターのトレーニングと文化 (History of K-Pop)",
+    vocabulary: [
+      { word: "global (形)", meaning: "世界的な、地球規模の" },
+      { word: "phenomenon (名)", meaning: "現象、ブーム" },
+      { word: "undergo (動)", meaning: "（訓練・経験を）受ける" },
+      { word: "intense (形)", meaning: "激しい、厳しい" },
+      { word: "perfect (動)", meaning: "〜を完璧に仕上げる" },
+      { word: "combine (動)", meaning: "〜を組み合わせる" },
+      { word: "element (名)", meaning: "要素、部分" },
+      { word: "attract (動)", meaning: "〜を引きつける、魅了する" },
+      { word: "audience (名)", meaning: "観客、聴衆" },
+      { word: "industry (名)", meaning: "産業、業界" }
+    ],
+    scripts: [
+      {
+        id: "vk_1",
+        en: "K-pop has become a global phenomenon with millions of fans.",
+        jp: "K-POPは数百万人のファンを持つ世界的な現象（ブーム）になりました。",
+        blankWord: "global", hint: "「世界的な」という意味の形容詞"
+      },
+      {
+        id: "vk_2",
+        en: "It combines various musical elements from around the world.",
+        jp: "それは世界中のさまざまな音楽的要素を組み合わせています。",
+        blankWord: "combines", hint: "「〜を組み合わせる」という意味の動詞"
+      },
+      {
+        id: "vk_3",
+        en: "Idols undergo intense training to perfect their performance.",
+        jp: "アイドルたちはパフォーマンスを完璧にするために激しいトレーニングを受けます。",
+        blankWord: "perfect", hint: "「〜を完璧にする」という意味の動詞"
+      },
+      {
+        id: "vk_4",
+        en: "Their unique visuals and dance moves attract a global audience.",
+        jp: "彼らのユニークなビジュアルとダンスが世界中の観客を引きつけます。",
+        blankWord: "attract", hint: "「〜を引きつける」という意味の動詞"
+      }
+    ]
+  },
+  {
     id: "v_practice",
     category: "成長・科学",
     title: "効果的に練習する方法 (How to Practice Effectively)",
-    youtubeId: "f2O6mQkFiiw",
     vocabulary: [
       { word: "master (動)", meaning: "〜を習得する、極める" },
       { word: "effective (形)", meaning: "効果的な" },
@@ -423,7 +477,6 @@ const tedData = [
     id: "v_history_tech",
     category: "近代史・技術",
     title: "エジソンvsテスラ：電流戦争の歴史 (Edison vs. Tesla)",
-    youtubeId: "gJ1Mz7kGVf0",
     vocabulary: [
       { word: "electricity (名)", meaning: "電気" },
       { word: "competition (名)", meaning: "競争、争い" },
@@ -467,7 +520,6 @@ const tedData = [
     id: "v_apollo",
     category: "近代史・宇宙",
     title: "アポロ11号と月面着陸の歴史 (How Moon Landing Worked)",
-    youtubeId: "33AogCg02-I",
     vocabulary: [
       { word: "achieve (動)", meaning: "〜を達成する、成し遂げる" },
       { word: "mission (名)", meaning: "任務、ミッション" },
@@ -533,12 +585,9 @@ function loadVideo(index) {
   currentVideoIndex = index;
   const data = tedData[index];
   
-  const frameContainer = document.getElementById('player-frame');
-  frameContainer.innerHTML = `
-    <iframe id="yt-iframe" src="https://www.youtube.com/embed/${data.youtubeId}?rel=0" allowfullscreen></iframe>
-  `;
-
+  document.getElementById('player-title').innerText = data.title;
   document.getElementById('current-video-title').innerText = `${data.title} - フレーズ学習`;
+  
   renderVideoSelector();
   renderVocabulary(data.vocabulary);
   renderScripts();
