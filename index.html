@@ -16,7 +16,7 @@ body{line-height:1.58}.app{padding:8px 8px 88px}.hero{border-radius:17px;padding
 
 .set-controls{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.set-label{font-size:.72rem;font-weight:800;color:var(--accent);letter-spacing:.08em}.set-tabs{display:flex;gap:6px;overflow:auto;margin-top:7px}.set-tab{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 10px;font-size:.74rem;cursor:pointer}.set-tab.on{background:var(--accent);color:#fff;border-color:var(--accent)}.bank-note{font-size:.76rem;color:var(--muted);margin-top:7px}.word-example{font-size:.74rem!important;color:#4f5868!important;margin-top:3px}.set-count{font-size:.72rem;color:var(--muted);margin-top:4px}
 
-.chorus-box{margin-top:16px;background:linear-gradient(145deg,#fffefa,#fff4f7)}.chorus-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.chorus-list{display:grid;gap:8px;margin-top:12px}.chorus-line{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px;text-align:left;cursor:pointer}.chorus-line b{display:block;font-size:.9rem}.chorus-line span{display:block;font-size:.76rem;color:var(--muted);margin-top:2px}.chorus-actions{display:flex;gap:8px;margin-top:10px}.chorus-actions button{flex:1;border:0;border-radius:10px;padding:9px;font-weight:800;cursor:pointer}.chorus-play{background:var(--red);color:#fff}.chorus-shuffle{background:#fff;border:1px solid var(--line)!important;color:var(--ink)}.review-label{display:inline-block;margin-top:4px;font-size:.68rem;font-weight:800;color:var(--gold)}
+.chorus-box{margin-top:16px;background:linear-gradient(145deg,#fffefa,#fff4f7)}.chorus-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.chorus-list{display:grid;gap:8px;margin-top:12px}.chorus-line{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px;text-align:left;cursor:pointer}.chorus-line b{display:block;font-size:.9rem}.chorus-line span{display:block;font-size:.76rem;color:var(--muted);margin-top:2px}.chorus-actions{display:flex;gap:8px;margin-top:10px}.chorus-actions button{flex:1;border:0;border-radius:10px;padding:9px;font-weight:800;cursor:pointer}.chorus-play{background:var(--red);color:#fff}.chorus-stop{background:#687184;color:#fff}.chorus-status{margin-top:8px;min-height:22px;font-size:.76rem;font-weight:800;color:var(--red)}.daily-target .target-en{display:block;margin-top:3px;color:var(--ink);font-size:.76rem}.daily-target .target-hint{display:block;margin-top:3px;color:var(--muted);font-size:.7rem}.daily-target.masked b{letter-spacing:.08em}.chorus-shuffle{background:#fff;border:1px solid var(--line)!important;color:var(--ink)}.review-label{display:inline-block;margin-top:4px;font-size:.68rem;font-weight:800;color:var(--gold)}
 
 /* v1.7: smartphone width containment fixes */
 html,body{width:100%;max-width:100%;overflow-x:hidden}
@@ -90,7 +90,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
 <aside>
 <div class="panel"><h2 class="section-title">今日の5語句</h2><div class="word-list" id="word-list"></div></div>
 <div class="panel daily-box"><div class="daily-head"><div><div class="eyebrow">5-DAY COURSE</div><h3 id="daily-title">この動画を5日で使い切る</h3></div><span class="daily-day" id="daily-day">DAY 1</span></div><p id="daily-desc"></p><div class="set-controls"><div class="set-label">この動画の学習バンク</div><div class="set-tabs" id="set-tabs"></div><div class="bank-note" id="bank-note"></div></div><div class="day-tabs" id="day-tabs"></div><div class="daily-targets" id="daily-targets"></div><button class="daily-action" id="daily-start">今日のメニューを始める</button></div>
-<div class="panel chorus-box"><div class="chorus-head"><div><div class="eyebrow">PHRASE CHORUS</div><h3>今日のフレーズ・サビ</h3></div><span class="tag">音で定着</span></div><p class="note">歌詞のサビのように、短い英文を同じ順番で何度も聞いて声に出します。</p><div class="chorus-list" id="chorus-list"></div><div class="chorus-actions"><button class="chorus-play" onclick="playChorus()">▶ まとめて3回</button><button class="chorus-shuffle" onclick="shuffleChorus()">並び替える</button></div></div>
+<div class="panel chorus-box"><div class="chorus-head"><div><div class="eyebrow">PHRASE CHORUS</div><h3>今日のフレーズ・サビ</h3></div><span class="tag" id="chorus-tag">音で定着</span></div><p class="note" id="chorus-note">歌詞のサビのように、短い英文をまとまりで聞いて声に出します。</p><div class="chorus-list" id="chorus-list"></div><div class="chorus-actions"><button class="chorus-play" id="chorus-play" onclick="playChorus()">▶ まとめて再生</button><button class="chorus-stop" onclick="stopChorus()">■ 停止</button><button class="chorus-shuffle" onclick="shuffleChorus()">並び替える</button></div><div class="chorus-status" id="chorus-status"></div></div>
 <div class="panel review-box" style="margin-top:16px"><h2 class="section-title">復習ボックス</h2><p id="review-message">間違えた問題はここにたまります。最後にもう一度挑戦しましょう。</p><button id="review-btn">苦手問題を復習</button></div>
 </aside>
 </section><p class="footer-note">動画は興味を持つための入口です。学習例文は入試レベルに合わせて独自に構成しています。</p>
@@ -245,12 +245,56 @@ function dayPlan(day){return [
  {title:'動画まるごと復習',desc:'見る・聞く・組み立てるを混ぜ、5語句を使える状態にします。',stages:['WATCH','LISTEN','EXAM','USE','REVIEW']}
  ][day-1]}
 function reviewWords(){let packs=getPacks(lessons[lessonIndex]),pool=[];for(let i=0;i<activeSetIndex;i++)pool.push(...packs[i].words);return shuffle(pool).slice(0,2)}
-let chorusOrder=[];
-function chorusWords(){let words=currentPack().words.filter(w=>w.sentence);if(!chorusOrder.length||chorusOrder.some(i=>i>=words.length))chorusOrder=words.map((_,i)=>i).slice(0,3);return chorusOrder.map(i=>words[i]).filter(Boolean)}
-function renderChorus(){let rows=chorusWords();$('chorus-list').innerHTML=rows.map((w,i)=>`<button class="chorus-line" onclick="speak('${w.sentence.replace(/'/g,"\\'")}')"><b>${i+1}. ${w.sentence}</b><span>${w.meaning}</span></button>`).join('')||'<div class="reflection">このセットには音読用例文を準備中です。</div>'}
-function shuffleChorus(){let words=currentPack().words.filter(w=>w.sentence);chorusOrder=shuffle(words.map((_,i)=>i)).slice(0,3);renderChorus()}
-function playChorus(){let rows=chorusWords();if(!rows.length)return;window.speechSynthesis.cancel();let queue=[];for(let r=0;r<3;r++)rows.forEach(w=>queue.push(w.sentence));let i=0;function nextLine(){if(i>=queue.length)return;let u=new SpeechSynthesisUtterance(queue[i++]);u.lang='en-US';u.rate=.82;u.onend=()=>setTimeout(nextLine,260);window.speechSynthesis.speak(u)}nextLine()}
-function renderDailyPlan(day){let l=lessons[lessonIndex];dailyDay=day||currentNaturalDay(l);let p=dayPlan(dailyDay);$('daily-day').textContent='DAY '+dailyDay;$('daily-title').textContent=`SET ${activeSetIndex+1}・${p.title}`;$('daily-desc').textContent=p.desc;renderSetTabs();$('day-tabs').innerHTML=[1,2,3,4,5].map(d=>`<button class="day-tab ${d===dailyDay?'on':''}" onclick="renderDailyPlan(${d})">DAY ${d}</button>`).join('');let todays=currentPack().words.map((w,i)=>`<div class="daily-target"><i>${i+1}</i><div><b>${w.term}</b><br>${w.meaning}</div></div>`);let reviews=reviewWords().map(w=>`<div class="daily-target"><i>↺</i><div><b>${w.term}</b><br>${w.meaning}<br><span class="review-label">前のセットから再登場</span></div></div>`);$('daily-targets').innerHTML=[...todays,...reviews].join('');$('daily-start').textContent=dailyDay===5?'5日目の総復習を始める':`DAY ${dailyDay} の学習を始める`;renderChorus()}
+let chorusOrder=[],chorusPlaying=false;
+function chorusConfig(){
+ const configs={
+  1:{count:3,repeat:2,rate:.72,label:'ゆっくり2回',note:'まずは意味を見ながら、短い3文をゆっくり聞きます。'},
+  2:{count:3,repeat:3,rate:.80,label:'耳で3回',note:'意味を思い出しながら、DAY 1とは違う順番で3回聞きます。'},
+  3:{count:3,repeat:2,rate:.86,label:'構文で2回',note:'文の型に注目し、区切りを意識して声に出します。'},
+  4:{count:4,repeat:2,rate:.92,label:'組み立て2回',note:'日本語を見ず、英文を先に口に出してから再生します。'},
+  5:{count:5,repeat:1,rate:.90,label:'全5文通し',note:'5文を順番を崩して通しで聞き、言える文を増やします。'}
+ };return configs[dailyDay]||configs[1]
+}
+function chorusWords(){
+ let words=currentPack().words.filter(w=>w.sentence),cfg=chorusConfig();
+ if(!chorusOrder.length||chorusOrder.some(i=>i>=words.length)){
+  let base=words.map((_,i)=>i);
+  if(dailyDay===2)base=[...base.slice(2),...base.slice(0,2)];
+  else if(dailyDay>=4)base=shuffle(base);
+  chorusOrder=base.slice(0,Math.min(cfg.count,base.length));
+ }
+ return chorusOrder.slice(0,cfg.count).map(i=>words[i]).filter(Boolean)
+}
+function playSentenceAt(i){let row=chorusWords()[i];if(row)speak(row.sentence)}
+function renderChorus(){
+ let rows=chorusWords(),cfg=chorusConfig();
+ $('chorus-tag').textContent=cfg.label;$('chorus-note').textContent=cfg.note;
+ $('chorus-play').textContent=`▶ ${rows.length}文を${cfg.repeat}回`;
+ $('chorus-status').textContent='';
+ $('chorus-list').innerHTML=rows.map((w,i)=>`<button class="chorus-line" onclick="playSentenceAt(${i})"><b>${i+1}. ${w.sentence}</b><span>${dailyDay===4?'先に英文を言ってからタップ':w.meaning}</span></button>`).join('')||'<div class="reflection">このセットには音読用例文を準備中です。</div>'
+}
+function shuffleChorus(){
+ stopChorus();let words=currentPack().words.filter(w=>w.sentence),cfg=chorusConfig();
+ chorusOrder=shuffle(words.map((_,i)=>i)).slice(0,Math.min(cfg.count,words.length));renderChorus()
+}
+function stopChorus(){chorusPlaying=false;if('speechSynthesis'in window)window.speechSynthesis.cancel();if($('chorus-status'))$('chorus-status').textContent='停止しました。'}
+function playChorus(){
+ let rows=chorusWords(),cfg=chorusConfig();if(!rows.length||!('speechSynthesis'in window))return;
+ stopChorus();chorusPlaying=true;let queue=[];for(let r=0;r<cfg.repeat;r++)rows.forEach((w,j)=>queue.push({text:w.sentence,round:r+1,line:j+1}));let i=0;
+ function nextLine(){if(!chorusPlaying)return;if(i>=queue.length){chorusPlaying=false;$('chorus-status').textContent='✓ サビ練習が終わりました。最後に1文だけ自分で言ってみよう。';return}let q=queue[i++];$('chorus-status').textContent=`再生中：${q.round}/${cfg.repeat}回目・${q.line}/${rows.length}文`;let u=new SpeechSynthesisUtterance(q.text);u.lang='en-US';u.rate=cfg.rate;u.onend=()=>setTimeout(nextLine,dailyDay===1?500:280);u.onerror=()=>{chorusPlaying=false;$('chorus-status').textContent='音声を再生できませんでした。端末の音声設定をご確認ください。'};window.speechSynthesis.speak(u)}nextLine()
+}
+function maskTerm(sentence,term){try{return sentence.replace(new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),'_____')}catch(e){return sentence}}
+function dailyTargetRows(day){
+ let words=currentPack().words,reviews=reviewWords(),rows=[];
+ if(day===1){rows=words.map((w,i)=>`<div class="daily-target"><i>${i+1}</i><div><b>${w.term}</b><br>${w.meaning}<span class="target-en">${w.sentence}</span></div></div>`)}
+ if(day===2){rows=words.map((w,i)=>`<div class="daily-target masked"><i>🔊</i><div><b>${maskTerm(w.sentence,w.term)}</b><span class="target-hint">音を聞く前に、空欄の語句を思い出そう</span></div></div>`)}
+ if(day===3){rows=words.map((w,i)=>`<div class="daily-target"><i>型</i><div><b>${w.term}</b><span class="target-en">${w.sentence}</span><span class="target-hint">語句だけでなく、前後を含む文の形で覚える</span></div></div>`)}
+ if(day===4){rows=words.map((w,i)=>`<div class="daily-target"><i>→</i><div><b>${w.jp||w.meaning}</b><span class="target-hint">英文を見ずに、使う語句と語順を考える</span></div></div>`)}
+ if(day===5){let mixed=shuffle(words.map(w=>({...w,review:false})).concat(reviews.map(w=>({...w,review:true}))));rows=mixed.map((w,i)=>`<div class="daily-target"><i>${w.review?'↺':'✓'}</i><div><b>${i%2?w.term:w.meaning}</b><span class="target-hint">${i%2?'意味と例文を言えるか確認':'英語表現を思い出せるか確認'}${w.review?'・前セットから再登場':''}</span></div></div>`)}
+ if(day!==5&&reviews.length)rows.push(...reviews.map(w=>`<div class="daily-target"><i>↺</i><div><b>${w.term}</b><br>${w.meaning}<span class="review-label">前のセットから再登場</span></div></div>`));
+ return rows
+}
+function renderDailyPlan(day){let l=lessons[lessonIndex];dailyDay=day||currentNaturalDay(l);chorusOrder=[];stopChorus();let p=dayPlan(dailyDay);$('daily-day').textContent='DAY '+dailyDay;$('daily-title').textContent=`SET ${activeSetIndex+1}・${p.title}`;$('daily-desc').textContent=p.desc;renderSetTabs();$('day-tabs').innerHTML=[1,2,3,4,5].map(d=>`<button class="day-tab ${d===dailyDay?'on':''}" onclick="renderDailyPlan(${d})">DAY ${d}</button>`).join('');$('daily-targets').innerHTML=dailyTargetRows(dailyDay).join('');$('daily-start').textContent=dailyDay===5?'5日目の総復習を始める':`DAY ${dailyDay} の学習を始める`;renderChorus()}
 function dailyIndices(){let p=dayPlan(dailyDay),items=currentItems(),idx=[];p.stages.forEach(stage=>items.forEach((x,i)=>{if(x.stage===stage&&!idx.includes(i))idx.push(i)}));return idx.length?idx:[0]}
 function startDailyMenu(){let idx=dailyIndices();itemIndex=idx[0];renderTraining();$('training-body').scrollIntoView({behavior:'smooth',block:'start'});sessionStorage.setItem('daily_indices',JSON.stringify(idx));sessionStorage.setItem('daily_pos','0')}
 function renderWords(){let pack=currentPack();$('word-list').innerHTML=pack.words.map(w=>`<div class="word"><div class="word-top"><b>${w.term}</b><span class="importance exam">★ 入試重要</span></div><div>${w.meaning}</div>${w.sentence?`<div class="word-example">${w.sentence}</div>`:''}</div>`).join('')}
