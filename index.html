@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TED-Ed で英語を学ぶ</title>
+  <title>TED-Edで英語を学ぶ</title>
   <style>
     :root {
       --primary: #4f46e5;
@@ -21,6 +21,7 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg-color);
+      /* 和紙風テクスチャ */
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
       color: var(--text-main);
       line-height: 1.6;
@@ -116,31 +117,23 @@
       border-color: var(--primary);
     }
 
-    /* プレイヤーカードのデザイン */
-    .audio-player-card {
-      background: #1e293b;
-      color: white;
+    /* 動画プレイヤーエリア */
+    .player-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
       border-radius: 12px;
-      padding: 24px;
       margin-bottom: 24px;
+      background: #1a202c;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
     }
 
-    .audio-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-bottom: 6px;
-      color: #f8fafc;
-    }
-
-    .audio-sub {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      margin-bottom: 16px;
+    .player-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
     }
 
     .vocab-section {
@@ -308,40 +301,42 @@
 
 <div class="container">
   <header>
-    <h1>TED-Ed で英語を学ぶ</h1>
-    <p>興味のあるテーマで耳と目を慣らし、必須フレーズを確実に定着させよう</p>
+    <h1>TED-Edで英語を学ぶ</h1>
+    <p>動画で興味のあるテーマに触れ、重要フレーズをマスターしよう！</p>
     <div class="progress-status" id="progress-text">進捗状況: 0 / 0 フレーズ完了 (0%)</div>
     <div class="progress-bar-container">
       <div id="progress-bar" class="progress-bar"></div>
     </div>
   </header>
 
+  <!-- テーマ選択 -->
   <div class="selector-card">
     <div class="selector-title">学習テーマを選択</div>
     <div class="video-selector" id="video-selector"></div>
   </div>
 
-  <div class="audio-player-card">
-    <div class="audio-title" id="player-title">テーマ名</div>
-    <div class="audio-sub">※ 各フレーズのボタンからネイティブ音声・ゆっくり音声をいつでも再生できます</div>
-  </div>
+  <!-- 動画プレイヤーエリア -->
+  <div class="player-container" id="player-frame"></div>
 
+  <!-- 単語帳エリア -->
   <div class="vocab-section">
-    <div class="vocab-title">📚 このテーマの重要単語・英検必須フレーズ (10語)</div>
+    <div class="vocab-title">📚 この動画の重要単語 (10語)</div>
     <div class="vocab-grid" id="vocab-grid"></div>
   </div>
 
+  <!-- スクリプトエリア -->
   <div class="section-heading" id="current-video-title">フレーズリスト</div>
   <div class="transcript-list" id="transcript-list"></div>
 </div>
 
 <script>
-// --- 完全自立型 教材データセット ---
+// --- 教材データ ---
 const tedData = [
   {
     id: "v_beauty",
     category: "美容・科学",
     title: "日焼け止めと肌の保護 (Sunscreen Protection)",
+    youtubeId: "ZSJITdsTze0",
     vocabulary: [
       { word: "ultraviolet (形)", meaning: "紫外線の (UV)" },
       { word: "damage (動)", meaning: "〜にダメージを与える" },
@@ -356,31 +351,31 @@ const tedData = [
     ],
     scripts: [
       {
-        id: "vb_1",
+        id: "vb_1", start: 10,
         en: "Ultraviolet rays from the sun can damage your skin cells.",
         jp: "太陽からの紫外線は、肌の細胞にダメージを与える可能性があります。",
         blankWord: "damage", hint: "「〜に損害を与える」という意味の動詞"
       },
       {
-        id: "vb_2",
+        id: "vb_2", start: 35,
         en: "Sunscreen creates a barrier that absorbs or reflects UV radiation.",
         jp: "日焼け止めは、紫外線を吸収または反射するバリア（障壁）を作ります。",
         blankWord: "creates", hint: "「〜を作り出す」という意味の動詞"
       },
       {
-        id: "vb_3",
+        id: "vb_3", start: 50,
         en: "By applying sunscreen, you can prevent premature skin aging.",
         jp: "日焼け止めを塗ることで、肌の早期の老化を防ぐことができます。",
         blankWord: "prevent", hint: "「〜を防ぐ」という意味の動詞"
       },
       {
-        id: "vb_4",
+        id: "vb_4", start: 75,
         en: "It is essential to apply it regularly throughout the day.",
         jp: "一日を通して定期的に塗り直すことが不可欠です。",
         blankWord: "regularly", hint: "「定期的に」という意味の副詞"
       },
       {
-        id: "vb_5",
+        id: "vb_5", start: 95,
         en: "Protecting your skin today helps keep it healthy in the future.",
         jp: "今日肌を守ることは、将来健康な状態を保つことに役立ちます。",
         blankWord: "healthy", hint: "「健康な」という意味の形容詞"
@@ -388,52 +383,10 @@ const tedData = [
     ]
   },
   {
-    id: "v_kpop",
-    category: "K-POP",
-    title: "K-POPスターのトレーニングと文化 (History of K-Pop)",
-    vocabulary: [
-      { word: "global (形)", meaning: "世界的な、地球規模の" },
-      { word: "phenomenon (名)", meaning: "現象、ブーム" },
-      { word: "undergo (動)", meaning: "（訓練・経験を）受ける" },
-      { word: "intense (形)", meaning: "激しい、厳しい" },
-      { word: "perfect (動)", meaning: "〜を完璧に仕上げる" },
-      { word: "combine (動)", meaning: "〜を組み合わせる" },
-      { word: "element (名)", meaning: "要素、部分" },
-      { word: "attract (動)", meaning: "〜を引きつける、魅了する" },
-      { word: "audience (名)", meaning: "観客、聴衆" },
-      { word: "industry (名)", meaning: "産業、業界" }
-    ],
-    scripts: [
-      {
-        id: "vk_1",
-        en: "K-pop has become a global phenomenon with millions of fans.",
-        jp: "K-POPは数百万人のファンを持つ世界的な現象（ブーム）になりました。",
-        blankWord: "global", hint: "「世界的な」という意味の形容詞"
-      },
-      {
-        id: "vk_2",
-        en: "It combines various musical elements from around the world.",
-        jp: "それは世界中のさまざまな音楽的要素を組み合わせています。",
-        blankWord: "combines", hint: "「〜を組み合わせる」という意味の動詞"
-      },
-      {
-        id: "vk_3",
-        en: "Idols undergo intense training to perfect their performance.",
-        jp: "アイドルたちはパフォーマンスを完璧にするために激しいトレーニングを受けます。",
-        blankWord: "perfect", hint: "「〜を完璧にする」という意味の動詞"
-      },
-      {
-        id: "vk_4",
-        en: "Their unique visuals and dance moves attract a global audience.",
-        jp: "彼らのユニークなビジュアルとダンスが世界中の観客を引きつけます。",
-        blankWord: "attract", hint: "「〜を引きつける」という意味の動詞"
-      }
-    ]
-  },
-  {
     id: "v_practice",
     category: "成長・科学",
     title: "効果的に練習する方法 (How to Practice Effectively)",
+    youtubeId: "f2O6mQkFiiw",
     vocabulary: [
       { word: "master (動)", meaning: "〜を習得する、極める" },
       { word: "effective (形)", meaning: "効果的な" },
@@ -448,25 +401,25 @@ const tedData = [
     ],
     scripts: [
       {
-        id: "vp_1",
+        id: "vp_1", start: 12,
         en: "Mastering any new skill takes time and effective practice.",
         jp: "新しいスキルをマスターするには、時間と効果的な練習が必要です。",
         blankWord: "effective", hint: "「効果的な」という意味の形容詞"
       },
       {
-        id: "vp_2",
+        id: "vp_2", start: 45,
         en: "Effective practice should be consistent and intensely focused.",
         jp: "効果的な練習は、一貫性があり、非常に集中したものであるべきです。",
         blankWord: "consistent", hint: "「一貫した」という意味の形容詞"
       },
       {
-        id: "vp_3",
+        id: "vp_3", start: 85,
         en: "Repetition is the key to building strong neural pathways in the brain.",
         jp: "反復こそが、脳内に強い神経回路を築く鍵となります。",
         blankWord: "Repetition", hint: "「反復」という意味の名詞"
       },
       {
-        id: "vp_4",
+        id: "vp_4", start: 120,
         en: "Focusing on difficult parts helps you improve much faster.",
         jp: "難しい部分に集中することで、ずっと早く上達することができます。",
         blankWord: "improve", hint: "「上達する」という意味の動詞"
@@ -477,6 +430,7 @@ const tedData = [
     id: "v_history_tech",
     category: "近代史・技術",
     title: "エジソンvsテスラ：電流戦争の歴史 (Edison vs. Tesla)",
+    youtubeId: "gJ1Mz7kGVf0",
     vocabulary: [
       { word: "electricity (名)", meaning: "電気" },
       { word: "competition (名)", meaning: "競争、争い" },
@@ -491,71 +445,28 @@ const tedData = [
     ],
     scripts: [
       {
-        id: "vh_1",
+        id: "vh_1", start: 15,
         en: "In the late 19th century, a fierce competition transformed modern power.",
         jp: "19世紀後半、激しい競争が現代の電気（電力）を一変させました。",
         blankWord: "competition", hint: "「競争」という意味の名詞"
       },
       {
-        id: "vh_2",
+        id: "vh_2", start: 40,
         en: "Edison and Tesla fought over the best system to power the world.",
         jp: "エジソンとテスラは、世界に電力を供給する最適なシステムを巡って争いました。",
         blankWord: "fought", hint: "「争った（fightの過去形）」"
       },
       {
-        id: "vh_3",
+        id: "vh_3", start: 70,
         en: "Tesla's alternating current proved to be more efficient for long distances.",
         jp: "テスラの交流電流は、長距離の送電においてより効率的であることが証明されました。",
         blankWord: "efficient", hint: "「効率的な」という意味の形容詞"
       },
       {
-        id: "vh_4",
+        id: "vh_4", start: 110,
         en: "This historical battle established the foundation of our modern electric grid.",
         jp: "この歴史的な戦いが、現代の送電網の基礎を確立したのです。",
         blankWord: "modern", hint: "「現代の、近代の」という意味の形容詞"
-      }
-    ]
-  },
-  {
-    id: "v_apollo",
-    category: "近代史・宇宙",
-    title: "アポロ11号と月面着陸の歴史 (How Moon Landing Worked)",
-    vocabulary: [
-      { word: "achieve (動)", meaning: "〜を達成する、成し遂げる" },
-      { word: "mission (名)", meaning: "任務、ミッション" },
-      { word: "technology (名)", meaning: "技術、テクノロジー" },
-      { word: "space (名)", meaning: "宇宙" },
-      { word: "land (動)", meaning: "着陸する" },
-      { word: "historic (形)", meaning: "歴史的な" },
-      { word: "moment (名)", meaning: "瞬間" },
-      { word: "humanity (名)", meaning: "人類" },
-      { word: "challenge (名)", meaning: "挑戦、課題" },
-      { word: "explore (動)", meaning: "〜を探索する、探検する" }
-    ],
-    scripts: [
-      {
-        id: "va_1",
-        en: "In 1969, humanity achieved one of its greatest technological missions.",
-        jp: "1969年、人類は最も偉大な技術的ミッションの一つを達成しました。",
-        blankWord: "achieved", hint: "「〜を達成した（achieveの過去形）」"
-      },
-      {
-        id: "va_2",
-        en: "Apollo 11 successfully landed the first humans on the Moon.",
-        jp: "アポロ11号は、人類を月面に着陸させることに成功しました。",
-        blankWord: "landed", hint: "「着陸させた（landの過去形）」"
-      },
-      {
-        id: "va_3",
-        en: "Engineers overcame countless technical challenges to make it possible.",
-        jp: "エンジニアたちはそれを可能にするため、無数の技術的課題を乗り越えました。",
-        blankWord: "challenges", hint: "「課題、試練（challengeの複数形）」"
-      },
-      {
-        id: "va_4",
-        en: "It was a historic moment that inspired people all over the world.",
-        jp: "それは世界中の人々を奮い立たせた歴史的な瞬間でした。",
-        blankWord: "historic", hint: "「歴史的な」という意味の形容詞"
       }
     ]
   }
@@ -585,9 +496,13 @@ function loadVideo(index) {
   currentVideoIndex = index;
   const data = tedData[index];
   
-  document.getElementById('player-title').innerText = data.title;
+  // 動画プレイヤー（iframe）をしっかり埋め込み表示
+  const frameContainer = document.getElementById('player-frame');
+  frameContainer.innerHTML = `
+    <iframe id="yt-player" src="https://www.youtube.com/embed/${data.youtubeId}?enablejsapi=1&rel=0" allowfullscreen allow="autoplay"></iframe>
+  `;
+
   document.getElementById('current-video-title').innerText = `${data.title} - フレーズ学習`;
-  
   renderVideoSelector();
   renderVocabulary(data.vocabulary);
   renderScripts();
@@ -630,8 +545,8 @@ function renderScripts() {
       <div class="en-text">${s.en}</div>
       <div class="jp-text">${s.jp}</div>
       <div class="actions">
-        <button class="btn-primary" onclick="speakText('${s.en.replace(/'/g, "\\'")}', 1.0)">🔊 英語音声を聴く</button>
-        <button class="btn-primary" style="background:#64748b;" onclick="speakText('${s.en.replace(/'/g, "\\'")}', 0.8)">ゆっくり聴く (0.8x)</button>
+        <button class="btn-primary" onclick="seekVideo(${s.start})">▶ 動画をこのシーン (${s.start}秒) から再生</button>
+        <button class="btn-primary" style="background:#64748b;" onclick="speakText('${s.en.replace(/'/g, "\\'")}', 1.0)">🔊 クリア音声で聴く</button>
         <button class="btn-secondary" onclick="toggleQuiz('${s.id}')">✍️ 穴埋めチェック</button>
       </div>
       <div class="quiz-box" id="quiz-${s.id}">
@@ -650,6 +565,17 @@ function renderScripts() {
   });
 }
 
+// 動画の指定秒数にジャンプして再生
+function seekVideo(seconds) {
+  const iframe = document.getElementById('yt-player');
+  if (iframe) {
+    const currentData = tedData[currentVideoIndex];
+    // srcを更新して秒数指定再生（確実に動く制御方法）
+    iframe.src = `https://www.youtube.com/embed/${currentData.youtubeId}?start=${seconds}&autoplay=1&rel=0`;
+  }
+}
+
+// クリアな音声読み上げ機能（補助用）
 function speakText(text, rate) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -657,8 +583,6 @@ function speakText(text, rate) {
     uttr.lang = 'en-US';
     uttr.rate = rate || 1.0;
     window.speechSynthesis.speak(uttr);
-  } else {
-    alert("お使いのブラウザは音声読み上げ機能に対応していません。");
   }
 }
 
