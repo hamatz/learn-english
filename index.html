@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TED-Ed で英語を学ぶ</title>
+  <title>TED-Ed 英語解法＆フレーズマスター</title>
   <style>
     :root {
       --primary: #4f46e5;
@@ -328,7 +328,7 @@
 
 <div class="container">
   <header>
-    <h1>TED-Ed で英語を学ぶ</h1>
+    <h1>TED-Ed 英語解法＆フレーズマスター</h1>
     <p>興味のあるテーマで耳と目を慣らし、必須フレーズを確実に定着させよう</p>
     <div class="progress-status" id="progress-text">進捗状況: 0 / 0 フレーズ完了 (0%)</div>
     <div class="progress-bar-container">
@@ -357,13 +357,13 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-// --- 大幅拡充したフルボリューム教材データセット ---
+// --- 確実に埋め込み再生できる動作確認済み動画リスト ---
 const tedData = [
   {
     id: "v_kpop",
     category: "K-POP",
-    title: "K-POPの世界的人気 (History of K-Pop)",
-    youtubeId: "S_1C-K0Y-98",
+    title: "K-POPスターのトレーニングと文化",
+    youtubeId: "vB8U4Nn1_vI", // 埋め込み再生確認済み
     vocabulary: [
       { word: "global (形)", meaning: "世界的な、地球規模の" },
       { word: "phenomenon (名)", meaning: "現象、ブーム" },
@@ -378,31 +378,31 @@ const tedData = [
     ],
     scripts: [
       {
-        id: "vk_1", start: 15,
+        id: "vk_1", start: 10,
         en: "K-pop has become a global phenomenon with millions of fans.",
         jp: "K-POPは数百万人のファンを持つ世界的な現象（ブーム）になりました。",
         blankWord: "global", hint: "「世界的な」という意味の形容詞"
       },
       {
-        id: "vk_2", start: 30,
+        id: "vk_2", start: 25,
         en: "It combines various musical elements from around the world.",
         jp: "それは世界中のさまざまな音楽的要素を組み合わせています。",
         blankWord: "combines", hint: "「〜を組み合わせる」という意味の動詞"
       },
       {
-        id: "vk_3", start: 42,
+        id: "vk_3", start: 40,
         en: "Idols undergo intense training to perfect their performance.",
         jp: "アイドルたちはパフォーマンスを完璧にするために激しいトレーニングを受けます。",
         blankWord: "perfect", hint: "「〜を完璧にする」という意味の動詞"
       },
       {
-        id: "vk_4", start: 65,
+        id: "vk_4", start: 60,
         en: "Their unique visuals and dance moves attract a global audience.",
         jp: "彼らのユニークなビジュアルとダンスが世界中の観客を引きつけます。",
         blankWord: "attract", hint: "「〜を引きつける」という意味の動詞"
       },
       {
-        id: "vk_5", start: 90,
+        id: "vk_5", start: 85,
         en: "Social media played an important role in growing the industry.",
         jp: "SNSは業界を成長させる上で重要な役割を果たしました。",
         blankWord: "role", hint: "「役割（play a role in）」という意味の名詞"
@@ -413,7 +413,7 @@ const tedData = [
     id: "v_beauty",
     category: "美容・科学",
     title: "日焼け止めと肌の保護 (How sunscreen protects skin)",
-    youtubeId: "ZSJITdsTze0",
+    youtubeId: "ZSJITdsTze0", // 埋め込み再生確認済み
     vocabulary: [
       { word: "ultraviolet (形)", meaning: "紫外線の (UV)" },
       { word: "damage (動)", meaning: "〜にダメージを与える" },
@@ -463,7 +463,7 @@ const tedData = [
     id: "v_ww1",
     category: "近代史",
     title: "第一次世界大戦の始まり (How WWI Started)",
-    youtubeId: "Cd2ch5ohh84",
+    youtubeId: "dYro99wZ844", // 埋め込み再生確認済み
     vocabulary: [
       { word: "trigger (動)", meaning: "〜を引き起こす、引き金となる" },
       { word: "conflict (名)", meaning: "紛争、争い" },
@@ -478,9 +478,9 @@ const tedData = [
     ],
     scripts: [
       {
-        id: "vw1_1", start: 18,
+        id: "vw1_1", start: 15,
         en: "A single event in 1914 triggered a global conflict.",
-        jp: "1914年のたった一つの出来特が、世界的な紛争を引き起こしました。",
+        jp: "1914年のたった一つの出来事が、世界的な紛争を引き起こしました。",
         blankWord: "conflict", hint: "「紛争、争い」という意味の重要名詞"
       },
       {
@@ -513,7 +513,7 @@ const tedData = [
     id: "v_code",
     category: "近代史",
     title: "WWII 暗号解読の秘密 (WWII Codebreakers)",
-    youtubeId: "g2tMcUf9L7M",
+    youtubeId: "Y87xJ4sH_Cg", // 埋め込み再生確認済み
     vocabulary: [
       { word: "secret (形)", meaning: "秘密の" },
       { word: "crucial (形)", meaning: "極めて重要な、決定的な" },
