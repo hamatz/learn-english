@@ -1,0 +1,325 @@
+const categoryInfo={
+ beauty:{icon:'💄',course:'BEAUTY',label:'美容と科学',description:'肌・髪・体の科学を入口に、日常で使う基本英語を学ぶ'},
+ kpop:{icon:'🎧',course:'K-POP',label:'音楽とダンス',description:'MVやパフォーマンスを見て、動作・感想・比較を英語で表す'},
+ history:{icon:'🕊️',course:'MODERN HISTORY',label:'近代史・戦争史',description:'人物の選択や原因・結果を追いながら、読解表現を身につける'}
+};
+const lessons=[
+{id:'beauty_sun',category:'beauty',title:'日焼け止めは、どう肌を守る？',sub:'Sunscreen and Skin Protection',level:'基礎',youtubeId:'ZSJITdsTze0',words:[
+{term:'protect A from B',meaning:'AをBから守る',type:'exam'},{term:'too much',meaning:'あまりに多くの',type:'exam'},{term:'help + 人 + 動詞',meaning:'人が～するのを助ける',type:'exam'},{term:'keep A 形容詞',meaning:'Aを～な状態に保つ',type:'exam'},{term:'ultraviolet',meaning:'紫外線の（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'内容をつかむ',prompt:'まず動画を見て、「日光から肌を守る仕組み」の話だと分かれば十分です。',scene:28},
+{stage:'WORDS',kind:'choice',title:'重要語句',prompt:'protect A from B の意味は？',choices:['AをBから守る','AをBに変える','AをBと比べる'],answer:0,explain:'protect your skin from the sun のように使います。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'次の文を聞いて、空所に入る語を選びましょう。',sentence:'Too much sunlight can damage your skin.',masked:'Too much sunlight can _____ your skin.',choices:['damage','invite','borrow'],answer:0,scene:10},
+{stage:'EXAM',kind:'order',title:'入試・語順整序',prompt:'「日光を浴びすぎると肌を傷つけることがあります」',tokens:['can','Too much sunlight','damage','your skin.'],answer:'Too much sunlight can damage your skin.'},
+{stage:'EXAM',kind:'choice',title:'入試・意味理解',prompt:'It is important to use sunscreen. と近い意味は？',choices:['日焼け止めを使うことは大切です','日焼け止めを使ってはいけません','日焼け止めは高価です'],answer:0,explain:'It is important to + 動詞＝～することが大切です。'},
+{stage:'USE',kind:'build',title:'自分で組み立てる',prompt:'「日焼け止めは肌を健康に保つのに役立ちます」',tokens:['Sunscreen','helps','keep','your skin','healthy.','from','very'],answer:'Sunscreen helps keep your skin healthy.',explain:'help + 動詞、keep A 形容詞の2つを使います。'},
+{stage:'REVIEW',kind:'reflect',title:'自分の生活につなげる',prompt:'Do you use sunscreen every day?',examples:['Yes, I do.','No, I do not.','I use it in summer.'],tip:'どれか近い答えを選んで声に出してみましょう。正誤判定はしません。'}]},
+{id:'beauty_skin',category:'beauty',title:'皮膚は何をしている？',sub:'The Science of Skin',level:'標準',youtubeId:'OxPlCkTKhzY',words:[
+{term:'the largest',meaning:'最も大きい',type:'exam'},{term:'not only A but also B',meaning:'AだけでなくBも',type:'exam'},{term:'be made of',meaning:'～でできている',type:'exam'},{term:'allow A to do',meaning:'Aが～することを可能にする',type:'exam'},{term:'organ',meaning:'臓器（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'内容をつかむ',prompt:'皮膚が「体を覆うだけではない」ことに注目して見ましょう。',scene:12},
+{stage:'WORDS',kind:'choice',title:'比較表現',prompt:'the largest organ の意味は？',choices:['最も大きい臓器','より軽い臓器','最も新しい臓器'],answer:0,explain:'large の最上級が largest です。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'音声を聞き、文の意味に合う語を選びましょう。',sentence:'Your skin protects your body from the outside world.',masked:'Your skin _____ your body from the outside world.',choices:['protects','forgets','paints'],answer:0,scene:20},
+{stage:'EXAM',kind:'blank',title:'入試・熟語',prompt:'Skin is made _____ several layers.',answer:'of',jp:'皮膚はいくつかの層でできています。'},
+{stage:'EXAM',kind:'order',title:'入試・語順整序',prompt:'「皮膚は体で最も大きい臓器です」',tokens:['is','the largest organ','Skin','in the body.'],answer:'Skin is the largest organ in the body.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「皮膚は体を守るだけでなく、温度も調節します」',tokens:['Skin','not only','protects the body','but also','controls temperature.','very'],answer:'Skin not only protects the body but also controls temperature.',explain:'not only A but also B＝AだけでなくBも。'},
+{stage:'REVIEW',kind:'reflect',title:'身近な英語',prompt:'Which is more important for healthy skin, sleep or food?',examples:['Sleep is more important for me.','Food is more important for me.','Both are important.'],tip:'比較表現 more important を使えれば十分です。'}]},
+{id:'beauty_hair',category:'beauty',title:'なぜ人間には髪が残っている？',sub:'Why Do Humans Have Hair?',level:'標準',youtubeId:'wd18yfQqa8A',words:[
+{term:'be different from',meaning:'～と異なる',type:'exam'},{term:'used to',meaning:'以前は～だった',type:'exam'},{term:'such as',meaning:'～のような',type:'exam'},{term:'lose',meaning:'失う',type:'exam'},{term:'evolution',meaning:'進化（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'内容をつかむ',prompt:'人間が体毛の多くを失った理由と、髪が残った場所に注目します。',scene:18},
+{stage:'WORDS',kind:'choice',title:'過去の習慣・状態',prompt:'Humans used to have more body hair. の意味は？',choices:['人間には以前もっと体毛がありました','人間は体毛を使います','人間の髪は長くなります'],answer:0,explain:'used to + 動詞＝以前は～した／～だった。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'空所に入る語を選びましょう。',sentence:'Human hair is different from animal fur.',masked:'Human hair is _____ from animal fur.',choices:['different','ready','famous'],answer:0,scene:38},
+{stage:'EXAM',kind:'blank',title:'入試・前置詞',prompt:'Human hair is different _____ animal fur.',answer:'from',jp:'人間の髪は動物の毛皮とは異なります。'},
+{stage:'EXAM',kind:'order',title:'入試・語順整序',prompt:'「人間は以前もっと多くの体毛を持っていました」',tokens:['used to','Humans','have','more body hair.'],answer:'Humans used to have more body hair.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「髪は頭などの場所に残りました」',tokens:['Hair','remained','in places','such as','the head.','was'],answer:'Hair remained in places such as the head.',explain:'such as＝～のような。'},
+{stage:'REVIEW',kind:'reflect',title:'自分の意見',prompt:'Do you think hair style is important?',examples:['Yes, I think so.','No, I do not think so.','It depends on the person.'],tip:'理由を一語足せそうなら because it shows personality なども使えます。'}]},
+{id:'kpop_ptd',category:'kpop',title:'MVの魅力を英語で説明しよう',sub:'Permission to Dance',level:'基礎',youtubeId:'CuklIb9d3fI',words:[
+{term:'look + 形容詞',meaning:'～に見える',type:'exam'},{term:'be popular with',meaning:'～に人気がある',type:'exam'},{term:'enjoy ～ing',meaning:'～することを楽しむ',type:'exam'},{term:'make 人 形容詞',meaning:'人を～な気持ちにする',type:'exam'},{term:'choreography',meaning:'振り付け（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'まずMVを楽しむ',prompt:'衣装・ダンス・表情のうち、一つに注目して見ましょう。',scene:20},
+{stage:'WORDS',kind:'choice',title:'映像描写',prompt:'They look happy. の意味は？',choices:['彼らは幸せそうに見えます','彼らは幸せを探しています','彼らは幸せではありません'],answer:0,explain:'look + 形容詞で「～に見える」です。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'英文を聞き、空所に入る語を選びましょう。',sentence:'Many people dance together.',masked:'Many people _____ together.',choices:['dance','study','sleep'],answer:0,scene:45},
+{stage:'EXAM',kind:'blank',title:'入試・熟語',prompt:'K-POP is popular _____ many young people.',answer:'with',jp:'K-POPは多くの若者に人気があります。'},
+{stage:'EXAM',kind:'order',title:'入試・語順整序',prompt:'「音楽は人々を幸せにすることができます」',tokens:['can','Music','people','make','happy.'],answer:'Music can make people happy.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「私は彼らが踊るのを見ることを楽しみます」',tokens:['I','enjoy','watching','them','dance.','to','happy'],answer:'I enjoy watching them dance.',explain:'enjoy の後ろは ～ing。watch + 人 + 動詞で「人が～するのを見る」です。'},
+{stage:'REVIEW',kind:'reflect',title:'推しポイント',prompt:'What did you like best in the video?',examples:['I liked the dance best.','I liked the clothes best.','I liked the smiles best.'],tip:'liked ～ best＝～が一番好きだった。'}]},
+{id:'kpop_dynamite',category:'kpop',title:'衣装と場面を比べよう',sub:'Dynamite',level:'基礎〜標準',youtubeId:'gdZLi9oWNZg',words:[
+{term:'be wearing',meaning:'～を着ている',type:'exam'},{term:'brighter than',meaning:'～より明るい',type:'exam'},{term:'one of the most',meaning:'最も～なものの一つ',type:'exam'},{term:'in front of',meaning:'～の前に',type:'exam'},{term:'retro',meaning:'レトロな（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'場面を観察する',prompt:'色、衣装、背景の変化を一つ見つけてみましょう。',scene:25},
+{stage:'WORDS',kind:'choice',title:'進行形',prompt:'He is wearing a blue jacket. の意味は？',choices:['彼は青い上着を着ています','彼は青い上着を買いました','彼は青が嫌いです'],answer:0,explain:'be wearing は「今、身につけている」です。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'空所に入る語を選びましょう。',sentence:'The second scene is brighter than the first.',masked:'The second scene is _____ than the first.',choices:['brighter','brightest','bright'],answer:0,scene:58},
+{stage:'EXAM',kind:'blank',title:'入試・前置詞',prompt:'They dance in front _____ a colorful building.',answer:'of',jp:'彼らはカラフルな建物の前で踊ります。'},
+{stage:'EXAM',kind:'order',title:'入試・比較級',prompt:'「二つ目の場面は最初の場面より明るいです」',tokens:['is','The second scene','brighter','than the first.'],answer:'The second scene is brighter than the first.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「これは彼らの最も有名な曲の一つです」',tokens:['This','is','one of','their most famous','songs.','more'],answer:'This is one of their most famous songs.',explain:'one of the most + 複数名詞の形を意識します。'},
+{stage:'REVIEW',kind:'reflect',title:'比較して答える',prompt:'Which do you like better, bright colors or dark colors?',examples:['I like bright colors better.','I like dark colors better.','I like both.'],tip:'like A better＝Aの方が好き。'}]},
+{id:'kpop_on',category:'kpop',title:'力強いダンスを説明しよう',sub:'ON: Kinetic Manifesto Film',level:'標準',youtubeId:'gwMa6gpoE9I',words:[
+{term:'as ... as',meaning:'～と同じくらい…',type:'exam'},{term:'move together',meaning:'一緒に動く',type:'exam'},{term:'be full of',meaning:'～でいっぱいである',type:'exam'},{term:'without',meaning:'～なしで',type:'exam'},{term:'performance',meaning:'パフォーマンス（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'動きに注目する',prompt:'人数、速さ、そろい方に注目して見ましょう。',scene:34},
+{stage:'WORDS',kind:'choice',title:'同程度の比較',prompt:'They move as quickly as the music. の意味は？',choices:['彼らは音楽と同じくらい速く動きます','彼らは音楽より遅く動きます','音楽が止まりました'],answer:0,explain:'as + 形容詞・副詞 + as＝～と同じくらい…。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'空所に入る語を選びましょう。',sentence:'The stage is full of energy.',masked:'The stage is full _____ energy.',choices:['of','to','at'],answer:0,scene:65},
+{stage:'EXAM',kind:'blank',title:'入試・熟語',prompt:'The stage is full _____ energy.',answer:'of',jp:'ステージはエネルギーに満ちています。'},
+{stage:'EXAM',kind:'order',title:'入試・語順整序',prompt:'「ダンサーたちは音楽なしでは動きません」',tokens:['do not move','The dancers','without','the music.'],answer:'The dancers do not move without the music.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「彼らは一つのチームのように一緒に動きます」',tokens:['They','move together','like','one team.','are','quickly'],answer:'They move together like one team.',explain:'like はここでは「～のように」。'},
+{stage:'REVIEW',kind:'reflect',title:'感想を選ぶ',prompt:'How did the performance make you feel?',examples:['It made me excited.','It made me surprised.','It made me want to dance.'],tip:'make 人 形容詞／make 人 動詞を使った表現です。'}]},
+{id:'history_current',category:'history',title:'エジソンとテスラ―電流戦争',sub:'Edison vs. Tesla',level:'標準',youtubeId:'gJ1Mz7kGVf0',words:[
+{term:'fight over',meaning:'～を巡って争う',type:'exam'},{term:'more ... than',meaning:'～よりもさらに…',type:'exam'},{term:'prove to be',meaning:'～であると分かる',type:'exam'},{term:'in the late 19th century',meaning:'19世紀後半に',type:'exam'},{term:'alternating current',meaning:'交流電流（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'対立をつかむ',prompt:'二人がどの方式を巡って争ったかに注目して見ましょう。',scene:35},
+{stage:'WORDS',kind:'choice',title:'過去形',prompt:'Edison and Tesla fought over electric systems. の意味は？',choices:['二人は電気方式を巡って争いました','二人は同じ学校で学びました','二人は電気を使いませんでした'],answer:0,explain:'fought は fight の過去形です。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'空所に入る語を選びましょう。',sentence:'AC was more efficient over long distances.',masked:'AC was more _____ over long distances.',choices:['efficient','careful','famous'],answer:0,scene:70},
+{stage:'EXAM',kind:'blank',title:'入試・前置詞',prompt:'Tesla’s system was more efficient _____ long distances.',answer:'for',jp:'テスラの方式は長距離ではより効率的でした。'},
+{stage:'EXAM',kind:'order',title:'入試・比較級',prompt:'「交流は長距離では直流より効率的でした」',tokens:['was','AC','more efficient','than DC','over long distances.'],answer:'AC was more efficient than DC over long distances.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「二人は最良の電気方式を巡って争いました」',tokens:['They','fought','over','the best','electric system.','for','were'],answer:'They fought over the best electric system.',explain:'fight over ～＝～を巡って争う。'},
+{stage:'REVIEW',kind:'reflect',title:'理由を考える',prompt:'Why was long-distance power important?',examples:['It could reach more people.','It was useful for large cities.','It changed modern life.'],tip:'because をつけて理由の文にしてもよいです。'}]},
+{id:'history_noor',category:'history',title:'平和主義者からスパイへ',sub:"Noor Inayat Khan's Choice",level:'標準',youtubeId:'Y7zyB7rsvHU',words:[
+{term:'decide to',meaning:'～することを決める',type:'exam'},{term:'have to choose',meaning:'選ばなければならない',type:'exam'},{term:'in order to',meaning:'～するために',type:'exam'},{term:'although',meaning:'～にもかかわらず',type:'exam'},{term:'resistance',meaning:'抵抗運動（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'人物の選択を追う',prompt:'Noorがどんな難しい選択をしたかに注目して見ましょう。',scene:20},
+{stage:'WORDS',kind:'choice',title:'決断の表現',prompt:'She decided to travel to England. の意味は？',choices:['彼女は英国へ行くことを決めました','彼女は英国から帰りました','彼女は旅行が嫌いでした'],answer:0,explain:'decide to + 動詞＝～することを決める。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'空所に入る語を選びましょう。',sentence:'She learned how to send secret messages.',masked:'She learned how to _____ secret messages.',choices:['send','break','forget'],answer:0,scene:85},
+{stage:'EXAM',kind:'blank',title:'入試・目的',prompt:'She went to England in order _____ help others.',answer:'to',jp:'彼女は人々を助けるために英国へ行きました。'},
+{stage:'EXAM',kind:'order',title:'入試・接続詞',prompt:'「彼女は平和主義者でしたが、戦いに加わりました」',tokens:['Although','she was a pacifist,','she joined','the fight.'],answer:'Although she was a pacifist, she joined the fight.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「彼女は人々を助けるために命を危険にさらしました」',tokens:['She','risked her life','in order to','help other people.','was','because'],answer:'She risked her life in order to help other people.',explain:'in order to＝～するために。'},
+{stage:'REVIEW',kind:'reflect',title:'人物を一文で表す',prompt:'Which word best describes Noor?',examples:['She was brave.','She was determined.','She was kind.'],tip:'動画を見た自分の判断なので、どれを選んでも構いません。'}]},
+{id:'history_hitler',category:'history',title:'独裁者はどう権力を得たのか',sub:'How Hitler Rose to Power',level:'標準〜発展',youtubeId:'jFICRFKtAc4',words:[
+{term:'because of',meaning:'～が原因で',type:'exam'},{term:'as a result',meaning:'その結果',type:'exam'},{term:'take advantage of',meaning:'～を利用する',type:'exam'},{term:'be afraid of',meaning:'～を恐れる',type:'exam'},{term:'dictatorship',meaning:'独裁政治（動画理解語）',type:'content'}],items:[
+{stage:'WATCH',kind:'watch',title:'原因を探す',prompt:'一人の力だけではなく、社会の不安や制度がどう関係したかを見ます。',scene:30},
+{stage:'WORDS',kind:'choice',title:'原因の表現',prompt:'Many people were worried because of the crisis. の意味は？',choices:['危機のため多くの人が不安でした','多くの人が危機を祝いました','危機はすぐ終わりました'],answer:0,explain:'because of の後ろには名詞が続きます。'},
+{stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'空所に入る語を選びましょう。',sentence:'He took advantage of fear and anger.',masked:'He took advantage _____ fear and anger.',choices:['of','for','with'],answer:0,scene:105},
+{stage:'EXAM',kind:'blank',title:'入試・熟語',prompt:'Many people were afraid _____ the future.',answer:'of',jp:'多くの人々は将来を恐れていました。'},
+{stage:'EXAM',kind:'order',title:'入試・原因結果',prompt:'「経済は弱く、その結果、多くの人が不安でした」',tokens:['The economy was weak,','and as a result,','many people','were worried.'],answer:'The economy was weak, and as a result, many people were worried.'},
+{stage:'USE',kind:'build',title:'英文組み立て',prompt:'「彼は人々の恐れを利用しました」',tokens:['He','took advantage of','people’s fear.','was','because'],answer:'He took advantage of people’s fear.',explain:'take advantage of＝～を利用する。'},
+{stage:'REVIEW',kind:'reflect',title:'歴史から考える',prompt:'What should people do when they hear a strong political message?',examples:['They should check the facts.','They should listen to different opinions.','They should think carefully.'],tip:'should + 動詞で「～すべき」を表します。'}]}
+];
+const supplementalBanks={"beauty_sun":[[["too much","多すぎる","Too much sunlight can hurt your skin.","日光を浴びすぎると肌を傷めることがあります。"],["be harmful to","～に有害である","Strong sunlight can be harmful to your skin.","強い日光は肌に有害なことがあります。"],["stay in","～の中にとどまる","Try to stay in the shade at noon.","正午には日陰にいるようにしましょう。"],["as much as possible","できるだけ","Avoid strong sunlight as much as possible.","強い日光をできるだけ避けましょう。"],["when you go outside","外出するとき","Use sunscreen when you go outside.","外出するときは日焼け止めを使いましょう。"]],[["need to","～する必要がある","You need to use enough sunscreen.","十分な量の日焼け止めを使う必要があります。"],["more than","～より多く","Some people need more protection than others.","人によっては他の人より強い保護が必要です。"],["be covered with","～で覆われている","Your skin is covered with a thin layer of sunscreen.","肌は薄い日焼け止めの層で覆われます。"],["both A and B","AもBも","Both sunlight and heat can affect your skin.","日光も暑さも肌に影響を与えることがあります。"],["for a long time","長い間","Do not stay in strong sunlight for a long time.","強い日光の下に長時間いないようにしましょう。"]],[["remember to","忘れずに～する","Remember to put on sunscreen again.","忘れずに日焼け止めを塗り直しましょう。"],["every two hours","2時間ごとに","Apply it again every two hours.","2時間ごとに塗り直しましょう。"],["even on cloudy days","曇りの日でさえ","UV rays reach us even on cloudy days.","曇りの日でさえ紫外線は届きます。"],["the best way to","～する最善の方法","The best way to protect your skin is to prepare early.","肌を守る最善の方法は早めに準備することです。"],["not always","いつも～とは限らない","A high price does not always mean better protection.","高い価格が必ずしもより良い保護を意味するとは限りません。"]]],"beauty_skin":[[["be made of","～でできている","Your skin is made of several layers.","皮膚はいくつかの層でできています。"],["keep A out","Aを中に入れない","Skin helps keep harmful things out.","皮膚は有害なものが入らないようにします。"],["keep A in","Aを中に保つ","It also helps keep water in your body.","体内の水分を保つのにも役立ちます。"],["be able to","～できる","Your skin is able to feel heat and cold.","皮膚は暑さや寒さを感じることができます。"],["one of the most","最も～なものの一つ","Skin is one of the most important organs.","皮膚は最も重要な器官の一つです。"]],[["take care of","～を大切にする","We should take care of our skin every day.","毎日肌を大切にすべきです。"],["change with","～とともに変化する","Your skin changes with age.","肌は年齢とともに変化します。"],["be different from","～と異なる","Healthy skin is different from damaged skin.","健康な肌は傷んだ肌とは異なります。"],["because of","～のために","Skin may become dry because of cold air.","冷たい空気のために肌が乾燥することがあります。"],["such as","～のような","Skin protects you from things such as germs.","皮膚は細菌のようなものから体を守ります。"]],[["send A to B","AをBへ送る","Nerves send information to the brain.","神経は情報を脳へ送ります。"],["tell A that","Aに～と伝える","Pain tells your brain that something is wrong.","痛みは何かがおかしいと脳に伝えます。"],["as soon as","～するとすぐに","Wash a cut as soon as you notice it.","傷に気づいたらすぐに洗いましょう。"],["in order to","～するために","The body works in order to repair the skin.","体は皮膚を修復するために働きます。"],["without ～ing","～せずに","We cannot live without protecting our bodies.","体を守らずに生きることはできません。"]]],"beauty_hair":[[["be used to","～するために使われる","Hair can be used to protect the head.","髪は頭を守るために使われます。"],["keep A warm","Aを暖かく保つ","Body hair once helped keep people warm.","体毛はかつて人を暖かく保つのに役立ちました。"],["less than","～より少ない","Humans have less body hair than many animals.","人間は多くの動物より体毛が少ないです。"],["lose heat","熱を失う","The body can lose heat through the head.","体は頭から熱を失うことがあります。"],["over time","時間とともに","Human hair changed over time.","人間の毛は時間とともに変化しました。"]],[["be connected to","～とつながっている","Each hair is connected to a small muscle.","それぞれの毛は小さな筋肉につながっています。"],["stand up","立つ、逆立つ","Hair can stand up when you feel cold.","寒いと毛が逆立つことがあります。"],["a kind of","一種の～","Goose bumps are a kind of body reaction.","鳥肌は体の反応の一種です。"],["make A look B","AをBに見せる","Hair can make a person look different.","髪は人の見た目を変えることがあります。"],["choose to","～することを選ぶ","People choose to style their hair in many ways.","人々はさまざまな方法で髪を整えることを選びます。"]],[["be important for","～にとって重要である","Hair can be important for identity.","髪は自己表現にとって重要なことがあります。"],["not only A but also B","AだけでなくBも","Hair is not only useful but also cultural.","髪は役に立つだけでなく文化的でもあります。"],["depend on","～によって決まる","Hair color depends on genes.","髪の色は遺伝子によって決まります。"],["be passed down","受け継がれる","Some features are passed down from parents.","いくつかの特徴は親から受け継がれます。"],["for example","例えば","For example, hair texture can differ among people.","例えば、髪質は人によって異なります。"]]],"kpop_ptd":[[["dance together","一緒に踊る","Many people dance together in the video.","動画では多くの人が一緒に踊ります。"],["look happy","幸せそうに見える","They look happy while they dance.","彼らは踊っている間、幸せそうに見えます。"],["be full of","～でいっぱいである","The video is full of bright colors.","その動画は明るい色でいっぱいです。"],["make people smile","人々を笑顔にする","The music can make people smile.","その音楽は人々を笑顔にできます。"],["all over the world","世界中で","Fans watch the video all over the world.","世界中のファンがその動画を見ます。"]],[["be interested in","～に興味がある","Many students are interested in K-pop.","多くの生徒がK-POPに興味を持っています。"],["listen to","～を聴く","They listen to the song again and again.","彼らはその歌を何度も聴きます。"],["learn from","～から学ぶ","Fans can learn English from music videos.","ファンはMVから英語を学べます。"],["want 人 to","人に～してほしい","The artists want people to feel hopeful.","アーティストは人々に希望を感じてほしいと思っています。"],["share A with B","AをBと共有する","Fans share their favorite scenes with friends.","ファンは好きな場面を友達と共有します。"]],[["the scene where","～する場面","I like the scene where everyone dances.","私はみんなが踊る場面が好きです。"],["one of my favorite","私の好きな～の一つ","This is one of my favorite music videos.","これは私の好きなMVの一つです。"],["as ～ as","～と同じくらい","The second scene is as colorful as the first.","2つ目の場面は最初と同じくらいカラフルです。"],["more exciting than","～よりわくわくする","The dance break is more exciting than the opening.","ダンスブレイクは冒頭よりわくわくします。"],["What do you think of","～をどう思いますか","What do you think of the costumes?","その衣装をどう思いますか。"]]],"kpop_dynamite":[[["be wearing","～を着ている","The members are wearing colorful clothes.","メンバーはカラフルな服を着ています。"],["different from","～と異なる","Each outfit is different from the others.","それぞれの衣装は他と異なります。"],["bright enough to","～するのに十分明るい","The colors are bright enough to catch your eye.","その色は目を引くのに十分明るいです。"],["change into","～に変わる","The scene changes into a dance floor.","場面はダンスフロアに変わります。"],["at the same time","同時に","They move at the same time.","彼らは同時に動きます。"]],[["compare A with B","AとBを比べる","Compare the first outfit with the second one.","最初の衣装と2つ目を比べてください。"],["prefer A to B","BよりAを好む","I prefer the blue outfit to the yellow one.","私は黄色より青い衣装が好きです。"],["the same as","～と同じ","The final pose is the same as the opening pose.","最後のポーズは冒頭と同じです。"],["which one","どちら、どれ","Which one do you like better?","どちらの方が好きですか。"],["much better","ずっと良い","The second dance looks much better to me.","私には2つ目のダンスの方がずっと良く見えます。"]],[["be known for","～で知られている","The group is known for its bright performances.","そのグループは明るいパフォーマンスで知られています。"],["take part in","～に参加する","Many dancers take part in the final scene.","多くのダンサーが最後の場面に参加します。"],["in front of","～の前で","They dance in front of a large sign.","彼らは大きな看板の前で踊ります。"],["from beginning to end","最初から最後まで","The energy stays high from beginning to end.","最初から最後まで勢いが続きます。"],["make use of","～を活用する","The video makes use of light and color.","その動画は光と色を活用しています。"]]],"kpop_on":[[["move quickly","素早く動く","The dancers move quickly across the stage.","ダンサーは舞台を素早く動きます。"],["keep in time","リズムを合わせる","They keep in time with the music.","彼らは音楽にリズムを合わせます。"],["become stronger","より強くなる","The movement becomes stronger near the end.","終盤に動きがより強くなります。"],["without stopping","止まらずに","They dance for several minutes without stopping.","彼らは数分間止まらずに踊ります。"],["as a group","グループとして","They move as a group.","彼らはグループとして動きます。"]],[["practice again and again","何度も練習する","Dancers practice again and again.","ダンサーは何度も練習します。"],["focus on","～に集中する","Focus on the difficult part first.","まず難しい部分に集中しましょう。"],["learn how to","～する方法を学ぶ","They learn how to control their bodies.","彼らは体をコントロールする方法を学びます。"],["become better at","～が上達する","You become better at dancing through practice.","練習によってダンスが上達します。"],["take time","時間がかかる","Learning a hard dance takes time.","難しいダンスを覚えるには時間がかかります。"]],[["try to","～しようとする","Try to keep your back straight.","背中をまっすぐに保つようにしましょう。"],["be careful not to","～しないよう注意する","Be careful not to move too fast.","速く動きすぎないよう注意しましょう。"],["as slowly as possible","できるだけゆっくり","Practice the move as slowly as possible.","その動きをできるだけゆっくり練習しましょう。"],["little by little","少しずつ","You can improve little by little.","少しずつ上達できます。"],["never give up","決してあきらめない","Good dancers never give up.","上手なダンサーは決してあきらめません。"]]],"history_current":[[["in the late 19th century","19世紀後半に","The competition began in the late 19th century.","その競争は19世紀後半に始まりました。"],["fight over","～をめぐって争う","The inventors fought over the best system.","発明家たちは最良の方式をめぐって争いました。"],["be better for","～により適している","One system was better for long distances.","一つの方式は長距離により適していました。"],["become the standard","標準になる","Alternating current became the standard.","交流が標準になりました。"],["play an important role","重要な役割を果たす","Electricity played an important role in modern life.","電気は現代生活で重要な役割を果たしました。"]],[["be invented by","～によって発明される","Many devices were invented by different people.","多くの装置がさまざまな人によって発明されました。"],["be used for","～に使われる","Electric power was used for homes and factories.","電力は家庭や工場に使われました。"],["more efficiently","より効率的に","Power could travel more efficiently.","電力はより効率的に送れました。"],["across the country","国中に","Electric lines spread across the country.","送電線は国中に広がりました。"],["as a result","その結果","As a result, more people could use electricity.","その結果、より多くの人が電気を使えました。"]],[["not A but B","AではなくB","The issue was not only science but also business.","問題は科学だけでなくビジネスでもありました。"],["try to prove","証明しようとする","Each side tried to prove that its system was safer.","双方が自分の方式の方が安全だと証明しようとしました。"],["be afraid of","～を恐れる","Some people were afraid of the new technology.","新技術を恐れる人もいました。"],["lead to","～につながる","The competition led to rapid change.","その競争は急速な変化につながりました。"],["have an effect on","～に影響を与える","Their choices still have an effect on us today.","彼らの選択は今も私たちに影響しています。"]]],"history_noor":[[["be born in","～で生まれる","Noor was born in Moscow.","ノーアはモスクワで生まれました。"],["grow up in","～で育つ","She grew up in France.","彼女はフランスで育ちました。"],["believe in","～を信じる","Her family believed in peace.","彼女の家族は平和を信じていました。"],["be forced to","～せざるを得ない","Her family was forced to leave France.","彼女の家族はフランスを離れざるを得ませんでした。"],["escape from","～から逃れる","They escaped from the war.","彼らは戦争から逃れました。"]],[["decide to","～することを決める","Noor decided to help the Allies.","ノーアは連合国を助けることを決めました。"],["learn how to","～する方法を学ぶ","She learned how to send secret messages.","彼女は秘密のメッセージを送る方法を学びました。"],["be sent to","～へ送られる","She was sent to occupied France.","彼女は占領下のフランスへ送られました。"],["work as","～として働く","She worked as a radio operator.","彼女は無線通信員として働きました。"],["in order to","～するために","She took risks in order to help others.","彼女は他の人を助けるために危険を冒しました。"]],[["although","～だけれども","Although she loved peace, she joined the resistance.","平和を愛していましたが、彼女は抵抗運動に参加しました。"],["continue to","～し続ける","She continued to send messages.","彼女はメッセージを送り続けました。"],["even though","～にもかかわらず","She stayed even though it was dangerous.","危険だったにもかかわらず彼女は残りました。"],["risk one’s life","命を危険にさらす","She risked her life for other people.","彼女は他の人々のために命を危険にさらしました。"],["be remembered for","～によって記憶される","She is remembered for her courage.","彼女は勇気によって記憶されています。"]]],"history_hitler":[[["after World War I","第一次世界大戦後","Germany faced many problems after World War I.","ドイツは第一次世界大戦後、多くの問題に直面しました。"],["lose confidence in","～への信頼を失う","Many people lost confidence in the government.","多くの人が政府への信頼を失いました。"],["be worried about","～を心配する","People were worried about jobs and money.","人々は仕事とお金を心配していました。"],["promise to","～すると約束する","Hitler promised to make Germany strong again.","ヒトラーはドイツを再び強くすると約束しました。"],["take advantage of","～を利用する","He took advantage of people’s fear.","彼は人々の恐れを利用しました。"]],[["come to power","権力を握る","The Nazi Party came to power in 1933.","ナチ党は1933年に権力を握りました。"],["be elected","選ばれる","Some Nazi leaders were elected.","一部のナチ指導者は選挙で選ばれました。"],["gain support","支持を得る","The party gained support during the crisis.","その党は危機の間に支持を得ました。"],["use A to B","BするためにAを使う","They used propaganda to influence people.","彼らは人々に影響を与えるため宣伝を使いました。"],["little by little","少しずつ","Freedom disappeared little by little.","自由は少しずつ失われました。"]],[["be allowed to","～することを許される","Opponents were not allowed to speak freely.","反対者は自由に話すことを許されませんでした。"],["prevent A from ～ing","Aが～するのを妨げる","The government prevented people from protesting.","政府は人々が抗議するのを妨げました。"],["instead of","～の代わりに","Many people followed slogans instead of checking facts.","多くの人が事実を確かめず標語に従いました。"],["learn from history","歴史から学ぶ","We must learn from history.","私たちは歴史から学ばなければなりません。"],["make sure that","必ず～を確かめる","Make sure that information is true.","情報が真実か必ず確かめましょう。"]]]};
+
+const supplementalBanksExtension={
+beauty_sun:[
+[["be exposed to","～にさらされる","Our skin is exposed to sunlight every day.","私たちの肌は毎日日光にさらされています。"],["cause damage to","～に損傷を与える","Strong UV rays can cause damage to skin cells.","強い紫外線は皮膚細胞に損傷を与えることがあります。"],["depend on","～によって決まる","The right amount depends on your skin type.","適切な量は肌質によって決まります。"],["at least","少なくとも","Apply sunscreen at least fifteen minutes before going out.","外出の少なくとも15分前に日焼け止めを塗りましょう。"],["again and again","何度も","You may need to apply it again and again.","何度も塗り直す必要があるかもしれません。"]],
+[["the same as","～と同じ","A cloudy day is not the same as a day without UV rays.","曇りの日は紫外線がない日と同じではありません。"],["be likely to","～しそうである","Wet skin is likely to lose sunscreen faster.","濡れた肌は日焼け止めがより早く落ちやすいです。"],["take care of","～を手入れする","It is important to take care of your skin.","肌を手入れすることは大切です。"],["instead of","～の代わりに","Stay in the shade instead of standing in strong sunlight.","強い日差しの中に立つ代わりに日陰にいましょう。"],["the more ..., the more ...","～すればするほど…","The more time you spend outside, the more protection you need.","外で過ごす時間が長いほど、より多くの保護が必要です。"]]],
+beauty_skin:[
+[["be covered with","～で覆われている","Your whole body is covered with skin.","全身は皮膚で覆われています。"],["keep ... out","～を中に入れない","Skin helps keep harmful things out.","皮膚は有害なものを中に入れないよう助けます。"],["send a message to","～に信号を送る","Nerves send a message to the brain.","神経は脳に信号を送ります。"],["change according to","～に応じて変わる","Your skin changes according to the temperature.","皮膚は温度に応じて変化します。"],["be responsible for","～を担う","Skin is responsible for several important jobs.","皮膚はいくつかの重要な働きを担っています。"]],
+[["prevent ... from","～が…するのを防ぐ","Skin prevents too much water from leaving the body.","皮膚は体から水分が出すぎるのを防ぎます。"],["be able to","～できる","We are able to feel heat through our skin.","私たちは皮膚を通して熱を感じられます。"],["one another","互いに","Different layers work with one another.","異なる層は互いに協力して働きます。"],["in response to","～に反応して","Skin changes in response to heat and cold.","皮膚は暑さや寒さに反応して変化します。"],["without ...ing","～せずに","We touch the world without thinking about our skin.","私たちは皮膚について考えずに世界に触れています。"]]],
+beauty_hair:[
+[["protect ... from","～から…を守る","Hair helps protect the head from sunlight.","髪は頭を日光から守るのに役立ちます。"],["keep ... warm","～を暖かく保つ","Body hair can help keep animals warm.","体毛は動物を暖かく保つのに役立ちます。"],["become thinner","薄くなる","Human body hair became thinner over time.","人間の体毛は時間とともに薄くなりました。"],["compared with","～と比べて","Humans have less body hair compared with many animals.","人間は多くの動物と比べて体毛が少ないです。"],["remain on","～に残る","Thick hair remained on the head.","濃い髪は頭に残りました。"]],
+[["be useful for","～に役立つ","Eyebrows are useful for keeping sweat away from the eyes.","眉毛は汗を目から遠ざけるのに役立ちます。"],["over time","時間とともに","Our bodies changed over time.","私たちの体は時間とともに変化しました。"],["no longer","もはや～ない","Humans no longer need thick fur everywhere.","人間はもはや全身の厚い毛皮を必要としません。"],["help ... survive","～が生き残るのを助ける","Some changes helped early humans survive.","いくつかの変化は初期の人類が生き残るのを助けました。"],["have something to do with","～と関係がある","Hair may have something to do with communication.","髪はコミュニケーションと関係があるかもしれません。"]]],
+kpop_ptd:[
+[["be filled with","～で満たされている","The video is filled with bright colors.","その動画は明るい色で満たされています。"],["take part in","～に参加する","Many people take part in the dance.","多くの人がダンスに参加します。"],["from all over the world","世界中から","Fans watch the video from all over the world.","ファンは世界中からその動画を見ます。"],["share ... with","～を…と共有する","People share their happiness with others.","人々は幸せを他の人と共有します。"],["feel free to","自由に～する","Everyone should feel free to dance.","誰もが自由に踊ってよいのです。"]],
+[["at the same time","同時に","The dancers move at the same time.","ダンサーたちは同時に動きます。"],["remind ... of","～に…を思い出させる","The song reminds many people of summer.","その曲は多くの人に夏を思い出させます。"],["be easy to","～しやすい","The main dance is easy to follow.","メインのダンスはまねしやすいです。"],["not have to","～する必要はない","You do not have to dance perfectly.","完璧に踊る必要はありません。"],["bring ... together","～を一つにする","Music can bring people together.","音楽は人々を一つにできます。"]]],
+kpop_dynamite:[
+[["stand out","目立つ","The bright clothes stand out in the video.","明るい衣装は動画の中で目立ちます。"],["be similar to","～に似ている","Some scenes are similar to old music shows.","いくつかの場面は昔の音楽番組に似ています。"],["change from A to B","AからBへ変わる","The background changes from blue to pink.","背景は青からピンクへ変わります。"],["in the middle of","～の真ん中に","They dance in the middle of the street.","彼らは通りの真ん中で踊ります。"],["each other","互いに","The members smile at each other.","メンバーは互いに微笑みます。"]],
+[["be known for","～で知られている","The song is known for its bright sound.","その曲は明るい音で知られています。"],["make use of","～を活用する","The video makes use of many retro designs.","その動画は多くのレトロなデザインを活用しています。"],["more than once","一度ならず","The same dance move appears more than once.","同じダンスの動きが一度ならず登場します。"],["as if","まるで～のように","The set looks as if it came from the past.","セットはまるで過去から来たように見えます。"],["one after another","次々に","Colorful scenes appear one after another.","カラフルな場面が次々に現れます。"]]],
+kpop_on:[
+[["keep up with","～についていく","The dancers keep up with the fast beat.","ダンサーたちは速いビートについていきます。"],["be divided into","～に分けられる","The group is divided into several lines.","グループはいくつかの列に分かれます。"],["in perfect time","完全にタイミングを合わせて","They move in perfect time with the music.","彼らは音楽と完全にタイミングを合わせて動きます。"],["focus on","～に集中する","Focus on the movement of their feet.","足の動きに集中してください。"],["be surrounded by","～に囲まれている","The singers are surrounded by dancers.","歌手たちはダンサーに囲まれています。"]],
+[["as soon as","～するとすぐに","They begin to move as soon as the beat starts.","ビートが始まるとすぐに動き始めます。"],["be strong enough to","～するのに十分強い","The movement is strong enough to fill the stage.","その動きはステージを満たすほど力強いです。"],["continue without stopping","止まらず続ける","They continue without stopping for a long time.","彼らは長い間止まらず続けます。"],["work together to","～するため協力する","The dancers work together to create one picture.","ダンサーたちは一つの絵を作るため協力します。"],["the harder ..., the better ...","～すればするほど良い","The harder they practice, the better they perform.","一生懸命練習するほど、より良く演技できます。"]]],
+history_current:[
+[["at the time","当時","At the time, cities needed more electric power.","当時、都市はより多くの電力を必要としていました。"],["be in competition with","～と競争している","The two systems were in competition with each other.","二つの方式は互いに競争していました。"],["send ... over","～を越えて送る","AC could send power over long distances.","交流は長距離にわたって電力を送れました。"],["turn into","～に変える","Machines turn electric power into movement.","機械は電力を動きに変えます。"],["become possible","可能になる","Modern city life became possible with electricity.","電気によって現代の都市生活が可能になりました。"]],
+[["on the other hand","一方で","Direct current was safer in some situations; on the other hand, it was harder to send far.","直流は場合によって安全でしたが、一方で遠くへ送るのが困難でした。"],["result in","～という結果になる","The competition resulted in rapid innovation.","その競争は急速な革新という結果になりました。"],["be connected to","～につながっている","Homes became connected to electric networks.","家庭は電力網につながるようになりました。"],["make a difference","違いを生む","A better system could make a difference to millions of people.","より良い方式は何百万人もの人々に違いをもたらせました。"],["from then on","それ以来","From then on, electric power spread quickly.","それ以来、電力は急速に広がりました。"]]],
+history_noor:[
+[["at the beginning of","～の初めに","At the beginning of the war, Noor lived in France.","戦争の初め、ノーアはフランスに住んでいました。"],["be trained to","～する訓練を受ける","She was trained to use a radio.","彼女は無線を使う訓練を受けました。"],["under a false name","偽名で","She worked under a false name.","彼女は偽名で活動しました。"],["keep in touch with","～と連絡を保つ","She helped Britain keep in touch with resistance groups.","彼女は英国が抵抗組織と連絡を保つのを助けました。"],["be in danger of","～の危険にある","She was always in danger of being caught.","彼女は常に捕まる危険にありました。"]],
+[["refuse to","～することを拒む","She refused to give up her work.","彼女は仕事を諦めることを拒みました。"],["remain calm","冷静でいる","She tried to remain calm in dangerous situations.","彼女は危険な状況でも冷静でいようとしました。"],["be captured by","～に捕らえられる","She was captured by German forces.","彼女はドイツ軍に捕らえられました。"],["in spite of","～にもかかわらず","In spite of the danger, she continued her mission.","危険にもかかわらず、彼女は任務を続けました。"],["stand for","～を象徴する","Her story stands for courage and responsibility.","彼女の物語は勇気と責任を象徴しています。"]]],
+history_hitler:[
+[["be dissatisfied with","～に不満を持つ","Many people were dissatisfied with the government.","多くの人が政府に不満を持っていました。"],["blame A for B","BをAのせいにする","The Nazis blamed minority groups for Germany's problems.","ナチスはドイツの問題を少数派のせいにしました。"],["appeal to","～に訴える","Simple messages appealed to frightened voters.","単純なメッセージは不安な有権者に訴えかけました。"],["spread false information","誤情報を広める","The party spread false information about its enemies.","その党は敵について誤情報を広めました。"],["become weaker","弱くなる","Democratic institutions became weaker.","民主的な制度は弱くなりました。"]],
+[["take control of","～を支配する","The Nazis took control of the government.","ナチスは政府を支配しました。"],["remove ... from","～を…から排除する","They removed opponents from public life.","彼らは反対者を公の場から排除しました。"],["be based on","～に基づく","Their ideology was based on racism and violence.","彼らの思想は人種差別と暴力に基づいていました。"],["fail to","～できない／し損なう","Many leaders failed to stop the dictatorship early.","多くの指導者は早期に独裁を止められませんでした。"],["in the end","最終的に","In the end, the dictatorship led Europe into war.","最終的に、その独裁体制は欧州を戦争へ導きました。"]]]
+};
+Object.entries(supplementalBanksExtension).forEach(([id,sets])=>{
+  supplementalBanks[id]=[...(supplementalBanks[id]||[]),...sets];
+});
+
+// 基本セットの語句にも必ず音読用例文を持たせる。
+const basePhraseExamples = {
+  "beauty_sun": [
+    [
+      "Sunscreen protects your skin from strong sunlight.",
+      "日焼け止めは強い日光から肌を守ります。"
+    ],
+    [
+      "Too much sunlight can damage your skin.",
+      "日光を浴びすぎると肌を傷めることがあります。"
+    ],
+    [
+      "Sunscreen helps your skin stay healthy.",
+      "日焼け止めは肌を健康に保つのに役立ちます。"
+    ],
+    [
+      "Good habits keep your skin healthy.",
+      "よい習慣は肌を健康な状態に保ちます。"
+    ],
+    [
+      "Ultraviolet rays can reach your skin.",
+      "紫外線は肌まで届くことがあります。"
+    ]
+  ],
+  "beauty_skin": [
+    [
+      "Skin is the largest organ in the human body.",
+      "皮膚は人体で最も大きい器官です。"
+    ],
+    [
+      "Skin not only protects us but also controls temperature.",
+      "皮膚は体を守るだけでなく体温も調節します。"
+    ],
+    [
+      "Your skin is made of several layers.",
+      "皮膚はいくつかの層でできています。"
+    ],
+    [
+      "Nerves allow your skin to feel heat and cold.",
+      "神経は皮膚が暑さや寒さを感じられるようにします。"
+    ],
+    [
+      "Skin is an important organ.",
+      "皮膚は大切な臓器です。"
+    ]
+  ],
+  "beauty_hair": [
+    [
+      "Human hair is different from animal fur.",
+      "人間の髪は動物の毛皮とは異なります。"
+    ],
+    [
+      "Humans used to have more body hair.",
+      "人間には以前もっと多くの体毛がありました。"
+    ],
+    [
+      "Hair remains in places such as the head.",
+      "髪は頭などの場所に残っています。"
+    ],
+    [
+      "Humans lost much of their body hair.",
+      "人間は体毛の多くを失いました。"
+    ],
+    [
+      "Evolution changed human hair over time.",
+      "進化によって人間の毛は長い時間をかけて変化しました。"
+    ]
+  ],
+  "kpop_ptd": [
+    [
+      "The dancers look happy in the video.",
+      "動画の中でダンサーたちは幸せそうに見えます。"
+    ],
+    [
+      "K-pop is popular with many young people.",
+      "K-POPは多くの若者に人気があります。"
+    ],
+    [
+      "I enjoy watching them dance.",
+      "私は彼らが踊るのを見ることを楽しみます。"
+    ],
+    [
+      "Music can make people happy.",
+      "音楽は人々を幸せな気持ちにできます。"
+    ],
+    [
+      "The choreography is easy to remember.",
+      "その振り付けは覚えやすいです。"
+    ]
+  ],
+  "kpop_dynamite": [
+    [
+      "The members are wearing colorful clothes.",
+      "メンバーはカラフルな服を着ています。"
+    ],
+    [
+      "The second scene is brighter than the first.",
+      "二つ目の場面は最初の場面より明るいです。"
+    ],
+    [
+      "This is one of their most famous songs.",
+      "これは彼らの最も有名な曲の一つです。"
+    ],
+    [
+      "They dance in front of a colorful building.",
+      "彼らはカラフルな建物の前で踊ります。"
+    ],
+    [
+      "The video has a retro style.",
+      "その動画にはレトロな雰囲気があります。"
+    ]
+  ],
+  "kpop_on": [
+    [
+      "They move as quickly as the music.",
+      "彼らは音楽と同じくらい速く動きます。"
+    ],
+    [
+      "The dancers move together like one team.",
+      "ダンサーたちは一つのチームのように一緒に動きます。"
+    ],
+    [
+      "The stage is full of energy.",
+      "ステージはエネルギーに満ちています。"
+    ],
+    [
+      "They dance without stopping.",
+      "彼らは止まらずに踊ります。"
+    ],
+    [
+      "The performance looks powerful.",
+      "そのパフォーマンスは力強く見えます。"
+    ]
+  ],
+  "history_current": [
+    [
+      "The inventors fought over the best electric system.",
+      "発明家たちは最良の電気方式をめぐって争いました。"
+    ],
+    [
+      "AC was more efficient than DC over long distances.",
+      "交流は長距離では直流より効率的でした。"
+    ],
+    [
+      "Tesla’s system proved to be useful.",
+      "テスラの方式は役に立つと分かりました。"
+    ],
+    [
+      "The competition began in the late 19th century.",
+      "その競争は19世紀後半に始まりました。"
+    ],
+    [
+      "Alternating current became the standard.",
+      "交流電流が標準になりました。"
+    ]
+  ],
+  "history_noor": [
+    [
+      "Noor decided to help other people.",
+      "ノーアは他の人々を助けることを決めました。"
+    ],
+    [
+      "She had to choose a difficult path.",
+      "彼女は難しい道を選ばなければなりませんでした。"
+    ],
+    [
+      "She learned radio skills in order to send messages.",
+      "彼女は通信を送るために無線技術を学びました。"
+    ],
+    [
+      "Although she loved peace, she joined the resistance.",
+      "平和を愛していましたが、彼女は抵抗運動に加わりました。"
+    ],
+    [
+      "The resistance helped people during the war.",
+      "抵抗運動は戦争中に人々を助けました。"
+    ]
+  ],
+  "history_hitler": [
+    [
+      "Germany faced serious problems after World War I.",
+      "ドイツは第一次世界大戦後に深刻な問題に直面しました。"
+    ],
+    [
+      "Many people lost confidence in the government.",
+      "多くの人々が政府への信頼を失いました。"
+    ],
+    [
+      "People were worried about jobs and money.",
+      "人々は仕事とお金を心配していました。"
+    ],
+    [
+      "Hitler promised to make Germany strong again.",
+      "ヒトラーはドイツを再び強くすると約束しました。"
+    ],
+    [
+      "He took advantage of people’s fear.",
+      "彼は人々の恐怖を利用しました。"
+    ]
+  ]
+};
+
