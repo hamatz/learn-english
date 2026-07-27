@@ -3,13 +3,29 @@ let wrong=JSON.parse(localStorage.getItem('interest_english_wrong_v2')||'[]');
 let done=JSON.parse(localStorage.getItem('interest_english_done_v2')||'[]');
 let learned=new Set(JSON.parse(localStorage.getItem('interest_english_words_v2')||'[]'));
 const $=id=>document.getElementById(id);function norm(s){return s.toLowerCase().replace(/[.,!?’']/g,'').replace(/\s+/g,' ').trim()}
-function makeGeneratedItems(pack){let items=[{stage:'WATCH',kind:'watch',title:'動画で探す',prompt:'今日の語句と関係する場面や内容を動画の中で探してみよう。',scene:0}];pack.words.forEach((w,i)=>{items.push({stage:'WORDS',kind:'choice',title:'意味を確認',prompt:`「${w.term}」に最も近い意味は？`,choices:shuffle([w.meaning,'まったく関係のない意味','反対に近い意味']),answer:0,explain:`${w.sentence}<br>${w.jp}`});items.push({stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'音声を聞き、空欄に入る語句を選ぼう。',masked:w.sentence.replace(new RegExp(w.term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),'_____'),sentence:w.sentence,scene:0,choices:shuffle([w.term,'because of','at first']),answer:null,_correct:w.term});items.push({stage:'EXAM',kind:'blank',title:'構文穴埋め',prompt:w.sentence.replace(new RegExp(w.term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),'_____'),answer:w.term,jp:w.jp});let toks=w.sentence.match(/[^ ]+[.,!?]?/g)||[];items.push({stage:'USE',kind:'build',title:'英文組み立て',prompt:w.jp,tokens:[...toks,(i%2?'because':'very')],answer:w.sentence,explain:`今日の型：<b>${w.term}</b>`})});items.push({stage:'REVIEW',kind:'reflect',title:'今日のまとめ',prompt:'今日覚えた表現を一つ選んで、例文を声に出して読もう。',examples:pack.words.slice(0,3).map(w=>w.sentence),tip:'自由な英作文は採点しません。まずは正しい例文を何度も口に出せれば十分です。'});return items}
+function makeGeneratedItems(pack){
+ let items=[{stage:'WATCH',kind:'watch',title:'動画で探す',prompt:'今日の語句と関係する場面や内容を動画の中で探してみよう。',scene:0}];
+ const fallbackTerms=['because of','at first','in the future','as a result','be interested in'];
+ pack.words.forEach((w,i)=>{
+  const meaningChoices=shuffle([w.meaning,'まったく関係のない意味','反対に近い意味']);
+  items.push({stage:'WORDS',kind:'choice',title:'意味を確認',prompt:`「${w.term}」に最も近い意味は？`,choices:meaningChoices,answer:meaningChoices.indexOf(w.meaning),_correct:w.meaning,explain:`${w.sentence}<br>${w.jp}`});
+  const distractors=fallbackTerms.filter(t=>t!==w.term).slice(i%3,(i%3)+2);
+  while(distractors.length<2)distractors.push(fallbackTerms.find(t=>t!==w.term&&!distractors.includes(t)));
+  const listenChoices=shuffle([w.term,...distractors]);
+  items.push({stage:'LISTEN',kind:'listen',title:'短く聞く',prompt:'例文を聞き、今日のどの語句・構文が使われているか選ぼう。',masked:'例文全体を聞いて、使われている表現を選びます。',sentence:w.sentence,scene:0,choices:listenChoices,answer:listenChoices.indexOf(w.term),_correct:w.term});
+  items.push({stage:'EXAM',kind:'blank',title:'語句を思い出す',prompt:`「${w.meaning}」に当たる今日の英語表現を入力しましょう。`,answer:w.term,accept:[w.term],jp:`${w.sentence}　／　${w.jp}`});
+  let toks=w.sentence.match(/[^ ]+[.,!?]?/g)||[];
+  items.push({stage:'USE',kind:'build',title:'英文組み立て',prompt:w.jp,tokens:[...toks,(i%2?'because':'very')],answer:w.sentence,explain:`今日の型：<b>${w.term}</b>`});
+ });
+ items.push({stage:'REVIEW',kind:'reflect',title:'今日のまとめ',prompt:'今日覚えた表現を一つ選んで、例文を声に出して読もう。',examples:pack.words.slice(0,3).map(w=>w.sentence),tip:'自由な英作文は採点しません。まずは正しい例文を何度も口に出せれば十分です。'});
+ return items
+}
 function getPacks(l){let examples=basePhraseExamples[l.id]||[];let base={name:'基本セット',words:l.words.map((w,i)=>({term:w.term,meaning:w.meaning,sentence:w.example||examples[i]?.[0]||'',jp:examples[i]?.[1]||''})),items:l.items};let extra=(supplementalBanks[l.id]||[]).map((rows,i)=>{let words=rows.map(r=>({term:r[0],meaning:r[1],sentence:r[2],jp:r[3],type:'exam'}));let p={name:`追加セット ${i+2}`,words};p.items=makeGeneratedItems(p);return p});return [base,...extra]}
 function currentPack(){return getPacks(lessons[lessonIndex])[activeSetIndex]||getPacks(lessons[lessonIndex])[0]}
 function currentItems(){return currentPack().items}
 function setActivePack(i){activeSetIndex=i;itemIndex=0;localStorage.setItem('interest_english_pack_'+lessons[lessonIndex].id,String(i));renderWords();renderDailyPlan(1);renderTraining()}
 function renderSetTabs(){let packs=getPacks(lessons[lessonIndex]);$('set-tabs').innerHTML=packs.map((p,i)=>`<button class="set-tab ${i===activeSetIndex?'on':''}" onclick="setActivePack(${i})">SET ${i+1}</button>`).join('');$('bank-note').textContent=`この動画には現在 ${packs.length}セット・約${packs.length*5}語句あります。学習バンクには後から何セットでも追加できます。`}
-function fixGeneratedChoice(x){if(x&&x._correct){x.answer=x.choices.indexOf(x._correct)}}
+function fixGeneratedChoice(x){if(x&&x._correct&&Array.isArray(x.choices)){const idx=x.choices.indexOf(x._correct);if(idx>=0)x.answer=idx}}
 function init(){renderCategories();selectCategory('beauty');$('prev-btn').onclick=prev;$('next-btn').onclick=next;$('review-btn').onclick=startReview;$('daily-start').onclick=startDailyMenu;updateStats()}
 function renderCategories(){let c=$('course-grid');c.innerHTML='';Object.entries(categoryInfo).forEach(([key,x])=>{let count=lessons.filter(l=>l.category===key).length,b=document.createElement('button');b.className='course '+(key===currentCategory?'active':'');b.innerHTML=`<div class="course-icon">${x.icon}</div><h3>${x.course}</h3><p>${x.description}</p><small>${count}本の動画 →</small>`;b.onclick=()=>selectCategory(key);c.appendChild(b)})}
 function selectCategory(key){currentCategory=key;renderCategories();renderVideoStrip();let idx=lessons.findIndex(l=>l.category===key);loadLesson(idx)}
@@ -101,10 +117,25 @@ function updateStats(){$('learned-count').textContent=done.length;$('exam-count'
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function auditLearningBanks(){
  const issues=[];
- lessons.forEach(l=>getPacks(l).forEach((p,pi)=>p.words.forEach((w,wi)=>{
-  if(!w.term||!w.meaning||!w.sentence)issues.push(`${l.id} / SET ${pi+1} / ${wi+1}`);
- })));
- if(issues.length)console.warn('例文未設定の学習語句:',issues);
- else console.info('Learning bank audit: all words have phrase examples.');
+ lessons.forEach(l=>getPacks(l).forEach((p,pi)=>{
+  p.words.forEach((w,wi)=>{
+   const at=`${l.id} / SET ${pi+1} / 語句${wi+1}`;
+   if(!w.term||!w.meaning||!w.sentence||!w.jp)issues.push(`${at}: 語句・意味・例文・和訳の不足`);
+  });
+  p.items.forEach((x,ii)=>{
+   const at=`${l.id} / SET ${pi+1} / 問題${ii+1}`;
+   if((x.kind==='choice'||x.kind==='listen')){
+    fixGeneratedChoice(x);
+    if(!Array.isArray(x.choices)||x.choices.length<2)issues.push(`${at}: 選択肢不足`);
+    if(!Number.isInteger(x.answer)||x.answer<0||x.answer>=x.choices.length)issues.push(`${at}: 正解番号が選択肢外`);
+    if(x._correct&&x.choices[x.answer]!==x._correct)issues.push(`${at}: 正解語と正解番号が不一致`);
+   }
+   if((x.kind==='blank')&&!x.answer)issues.push(`${at}: 入力問題の正解不足`);
+   if((x.kind==='order'||x.kind==='build')&&(!x.answer||!Array.isArray(x.tokens)))issues.push(`${at}: 組み立て問題のデータ不足`);
+  });
+ }));
+ if(issues.length)console.error('Learning bank audit errors:',issues);
+ else console.info('Learning bank audit: words, choices, answers and examples are mechanically consistent.');
+ return issues
 }
 window.onload=()=>{auditLearningBanks();init()};
